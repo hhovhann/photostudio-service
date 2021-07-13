@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
+@Validated
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
@@ -29,7 +31,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long create(@Validated @RequestBody OrderRequestDTO orderRequestDTO) {
+    public Long create(@Valid @RequestBody OrderRequestDTO orderRequestDTO) {
         return orderService.create(orderRequestDTO);
     }
 
