@@ -55,10 +55,10 @@ public class OrderController {
         orderService.uploadPhoto(orderId, zipFile);
     }
 
-    @PostMapping("/order/photo/{order_id}")
+    @PostMapping("/order/image/{order_id}")
     @ResponseStatus(OK)
     // TODO could then have Role OPERATOR and ADMIN, who only can verify @RolesAllowed({"ROLE_ADMIN", "ROLE_OPERATOR"})
-    public void verify(@PathVariable("order_id") Long orderId, @RequestBody String photoUrl) {
-        orderService.verifyContent(orderId, photoUrl);
+    public void verify(@PathVariable("order_id") Long orderId) {
+        orderService.verifyContent(orderId);
     }
 }

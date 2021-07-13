@@ -33,9 +33,9 @@ public class DataValidator {
 
     /***
      * Checks zip file content against some business logic and accept it, otherwise validation exception about bad content
-     * @param photoUrl - photo url where store our zip rescource
+     * @param imageURL - photo url where store our zip rescource
      */
-    public void validatePhotoContent(String photoUrl) {
+    public void validatePhotoContent(String imageURL) {
         // TODO Call third party resource with this photo identifier and do response validation: accept if it's ok, otherwise bad content exception should be thrown
         // DO NOTHING FOR NOW;
     }

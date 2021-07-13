@@ -44,7 +44,7 @@ public class OrderEntity implements Serializable {
 
     private LocalDateTime creationDateTime;
 
-    private String photoUrl;
+    private String imageURL;
 
     public OrderEntity() {
     }
@@ -113,12 +113,12 @@ public class OrderEntity implements Serializable {
         this.creationDateTime = localDateTime;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public void addPhotographer(PhotographerEntity photographerEntity) {

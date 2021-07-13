@@ -40,8 +40,8 @@ public interface OrderService {
     /***
      * Verifies the content of the zip files
      * @param orderId - order instance id
-     */
-    void verifyContent(Long orderId, String photoUrl);
+      */
+    void verifyContent(Long orderId);
 
     /***
      * Removes order from database if exists

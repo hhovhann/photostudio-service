@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
         dataValidator.validateFile(zipFIle);
         try {
-            orderEntity.setPhotoUrl(zipFIle.getResource().getURL().toString());
+            orderEntity.setImageURL(zipFIle.getResource().getURL().toString());
         } catch (IOException exception) {
             System.out.println("Found exception in provided file. " + exception.getLocalizedMessage());
         }
@@ -87,10 +87,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void verifyContent(Long orderId, String photoUrl) {
+    public void verifyContent(Long orderId) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
-        dataValidator.validatePhotoContent(photoUrl); // now it goes well and will change the status to COMPLETED, in future logic should be added where not verified will change status back to ASSIGNED
+        dataValidator.validatePhotoContent(orderEntity.getImageURL()); // now it goes well and will change the status to COMPLETED, in future logic should be added where not verified will change status back to ASSIGNED
         orderEntity.setOrderStatus(COMPLETED);
         orderRepository.save(orderEntity);
     }
