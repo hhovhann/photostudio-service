@@ -3,11 +3,11 @@ package com.hhovhann.photostudioservice.controller;
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.service.OrderServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @Validated
+@Tag(name = "Order endpoints")
 @RestController("/api")
 public class OrderController {
 
@@ -24,8 +25,8 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-//    @RolesAllowed("ADMIN")
     @GetMapping("/order")
+//    @Operation(security = @SecurityRequirement(name = "basicAuth"))
     public List<OrderEntity> findAll() {
         return orderService.findAll();
     }

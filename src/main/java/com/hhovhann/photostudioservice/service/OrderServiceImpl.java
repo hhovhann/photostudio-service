@@ -1,9 +1,11 @@
 package com.hhovhann.photostudioservice.service;
 
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
+import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
+import com.hhovhann.photostudioservice.repository.PhotographerRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +19,13 @@ import static com.hhovhann.photostudioservice.domain.data.OrderStatus.UNSCHEDULE
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final PhotographerRepository photographerRepository;
     private final OrderMapper orderMapper;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, PhotographerRepository photographerRepository) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.photographerRepository = photographerRepository;
     }
 
     @Override
