@@ -1,11 +1,6 @@
 package com.hhovhann.photostudioservice.dto;
 
-import com.hhovhann.photostudioservice.domain.data.PhotoType;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 public class PhotographerRequestDTO {
     @NotNull(message = "First Name may not be null")

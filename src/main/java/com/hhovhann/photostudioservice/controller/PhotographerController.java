@@ -1,6 +1,5 @@
 package com.hhovhann.photostudioservice.controller;
 
-import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.dto.PhotographerRequestDTO;
 import com.hhovhann.photostudioservice.service.PhotographerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,8 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
-@RestController("/api")
+@RestController("/api/v1/photographer")
 @Tag(name = "Photographer endpoints")
 public class PhotographerController {
 
@@ -22,11 +22,10 @@ public class PhotographerController {
         this.photographerService = photographerService;
 
     }
-
-    @PostMapping("/photographer")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long create(@Valid @RequestBody PhotographerRequestDTO photographerRequestDTO) {
-        return photographerService.create(photographerRequestDTO);
+    // TODO could then have Role OPERATORS, who only can verify @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
+    public void create(@Valid @RequestBody List<PhotographerRequestDTO> photographerRequestDTOs) {
+        photographerService.create(photographerRequestDTOs);
     }
-
 }

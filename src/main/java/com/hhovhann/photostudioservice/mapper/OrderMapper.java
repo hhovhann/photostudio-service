@@ -10,15 +10,18 @@ public class OrderMapper {
 
     public OrderEntity toEntity(OrderRequestDTO orderRequestDTO) {
         OrderEntity orderEntity = new OrderEntity();
+
         ContactData contactData = new ContactData();
-        contactData.setFirstName(orderRequestDTO.getFirstName());
-        contactData.setLastName(orderRequestDTO.getLastName());
-        contactData.setPhone(orderRequestDTO.getPhone());
+        contactData.setName(orderRequestDTO.getName());
+        contactData.setSurname(orderRequestDTO.getSurname());
+        contactData.setCellNumber(orderRequestDTO.getCellNumber());
         contactData.setEmail(orderRequestDTO.getEmail());
+
         orderEntity.setContactData(contactData);
-        orderEntity.setOrderType(orderRequestDTO.getOrderType());
-        orderEntity.setLocalDateTime(orderRequestDTO.getLocalDateTime());
+        orderEntity.setPhotoType(orderRequestDTO.getPhotoType());
         orderEntity.setTitle(orderRequestDTO.getTitle());
+        orderEntity.setLogisticInfo(orderRequestDTO.getLogisticInfo());
+        orderEntity.setCreationDateTime(orderRequestDTO.getLocalDateTime());
         return orderEntity;
     }
 }

@@ -21,7 +21,7 @@ public class OrderEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "order_seq")
-    @SequenceGenerator(allocationSize = 70, name = "order_seq", sequenceName = "order_sequence")
+    @SequenceGenerator(allocationSize = 90, name = "order_seq", sequenceName = "order_sequence")
     private Long id;
 
     @Embedded
@@ -42,7 +42,9 @@ public class OrderEntity implements Serializable {
 
     private String logisticInfo;
 
-    private LocalDateTime localDateTime;
+    private LocalDateTime creationDateTime;
+
+    private String photoUrl;
 
     public OrderEntity() {
     }
@@ -59,11 +61,11 @@ public class OrderEntity implements Serializable {
         return contactData;
     }
 
-    public PhotoType getOrderType() {
+    public PhotoType getPhotoType() {
         return photoType;
     }
 
-    public void setOrderType(PhotoType photoType) {
+    public void setPhotoType(PhotoType photoType) {
         this.photoType = photoType;
     }
 
@@ -103,12 +105,20 @@ public class OrderEntity implements Serializable {
         this.logisticInfo = logisticInfo;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setCreationDateTime(LocalDateTime localDateTime) {
+        this.creationDateTime = localDateTime;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public void addPhotographer(PhotographerEntity photographerEntity) {

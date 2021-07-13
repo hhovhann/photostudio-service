@@ -1,18 +1,11 @@
 package com.hhovhann.photostudioservice.service;
 
-import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface OrderService {
-
-    /***
-     * Find all stored orders
-     * @return list of orders
-     */
-    List<OrderEntity> findAll();
 
     /***
      * Create order with or without local date time
@@ -22,33 +15,38 @@ public interface OrderService {
     Long create(OrderRequestDTO orderRequestDTO);
 
     /***
-     * Modify created order
+     * Modifies local date time for already created order
      * @param orderId - order instance id
      * @param localDateTime - local date time working hours 08.00 - 24.00
      */
     void update(Long orderId, LocalDateTime localDateTime);
 
-    /***
-     * Remove order from database if exists
-     * @param orderId -  order instance id
-     */
-    void cancel(Long orderId);
 
     /***
-     * Assign order to photographer
+     * Assigns order to the photographer
      * @param orderId -  order instance id
      * @param photographerId -  photographer instance id
      */
     void assign(Long orderId, Long photographerId);
+
+
     /***
-     * Un Assign order from photographer
-     * @param orderId -  order instance id
-     * @param photographerId -  photographer instance id
+     * Uploads photo to order
+     * @param orderId - order instance id
+     * @param zipFIle - zip of photos to upload to the system
      */
-    void unassign(Long orderId, Long photographerId);
+    void uploadPhoto(Long orderId, MultipartFile zipFIle);
+
     /***
-     * Upload photo to order
+     * Verifies the content of the zip files
      * @param orderId - order instance id
      */
-    void uploadPhoto(Long orderId, String photoUrl);
+    void verifyContent(Long orderId, String photoUrl);
+
+    /***
+     * Removes order from database if exists
+     * @param orderId -  order instance id
+     */
+    void cancel(Long orderId);
+
 }

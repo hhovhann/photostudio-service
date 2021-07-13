@@ -3,30 +3,43 @@ package com.hhovhann.photostudioservice.service;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.dto.PhotographerRequestDTO;
+import com.hhovhann.photostudioservice.repository.OrderRepository;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
+import com.hhovhann.photostudioservice.validatiors.DataValidator;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
     private final PhotographerRepository photographerRepository;
+    private final OrderRepository orderRepository;
+    private final DataValidator dataValidator;
 
-    public PhotographerServiceImpl(PhotographerRepository photographerRepository) {
+    public PhotographerServiceImpl(PhotographerRepository photographerRepository, OrderRepository orderRepository, DataValidator dataValidator) {
         this.photographerRepository = photographerRepository;
+        this.orderRepository = orderRepository;
+        this.dataValidator = dataValidator;
     }
 
     @Override
-    public Long create(PhotographerRequestDTO photographerRequestDTO) {
+    public void create(List<PhotographerRequestDTO> photographerRequestDTOs) {
+        Set<PhotographerEntity> photographerEntities = new HashSet<>();
+        photographerRequestDTOs.forEach(photographerRequestDTO -> {
+            PhotographerEntity photographer = new PhotographerEntity();
+            ContactData firstContactData = new ContactData();
+            firstContactData.setName(photographerRequestDTO.getFirstName());
+            firstContactData.setSurname(photographerRequestDTO.getLastName());
+            firstContactData.setEmail(photographerRequestDTO.getEmail());
+            firstContactData.setCellNumber(photographerRequestDTO.getEmail());
+            photographer.setContactData(firstContactData);
 
-        PhotographerEntity firstPhotographer = new PhotographerEntity();
-        ContactData firstContactData = new ContactData();
-        firstContactData.setFirstName(photographerRequestDTO.getFirstName());
-        firstContactData.setLastName(photographerRequestDTO.getLastName());
-        firstContactData.setEmail(photographerRequestDTO.getEmail());
-        firstContactData.setPhone(photographerRequestDTO.getEmail());
-        firstPhotographer.setContactData(firstContactData);
+            photographerEntities.add(photographer);
+        });
 
-        PhotographerEntity entity = photographerRepository.save(firstPhotographer);
-
-        return entity.getId();
+        photographerRepository.saveAll(photographerEntities);
     }
+
 }

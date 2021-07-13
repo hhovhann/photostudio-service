@@ -6,45 +6,42 @@ import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
+import com.hhovhann.photostudioservice.validatiors.DataValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hhovhann.photostudioservice.domain.data.OrderStatus.PENDING;
-import static com.hhovhann.photostudioservice.domain.data.OrderStatus.UNSCHEDULED;
+import static com.hhovhann.photostudioservice.domain.data.OrderStatus.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final DataValidator dataValidator;
     private final PhotographerRepository photographerRepository;
     private final OrderMapper orderMapper;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, PhotographerRepository photographerRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, DataValidator dataValidator, OrderMapper orderMapper, PhotographerRepository photographerRepository) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.dataValidator = dataValidator;
         this.photographerRepository = photographerRepository;
-    }
-
-    @Override
-    public List<OrderEntity> findAll() {
-        return orderRepository.findAll();
     }
 
     @Override
     @Transactional
     public Long create(OrderRequestDTO orderRequestDTO) {
         OrderEntity orderEntity = orderMapper.toEntity(orderRequestDTO);
-        if (Objects.isNull(orderRequestDTO.getLocalDateTime())) {
+        LocalDateTime localDateTime = orderRequestDTO.getLocalDateTime();
+        if (Objects.isNull(localDateTime)) {
             orderEntity.setOrderStatus(UNSCHEDULED);
-
         } else {
-            // Validate local date time
-            // TODO check hours 8 >= orderRequestDTO.getLocalDateTime().getHour() <= 24
-            //  TODO check minutes 00 >= orderRequestDTO.getLocalDateTime().getMinute() <= 59
-            // TODO check that date in range of working hours from 8 - 20.00
+            dataValidator.validateBusinessHours(localDateTime);
             orderEntity.setOrderStatus(PENDING);
         }
         orderRepository.save(orderEntity);
@@ -55,45 +52,62 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void update(Long orderId, LocalDateTime localDateTime) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
-        orderEntity.setLocalDateTime(Objects.requireNonNull(localDateTime));
+        dataValidator.validateBusinessHours(localDateTime);
+        orderEntity.setCreationDateTime(localDateTime);
         orderEntity.setOrderStatus(PENDING);
+        orderRepository.save(orderEntity);
+    }
+
+
+    @Override
+    @Transactional
+    public void assign(Long orderId, Long photographerId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), PENDING);
+        PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        orderEntity.addPhotographer(photographerEntity);
+        orderEntity.setOrderStatus(ASSIGNED);
         orderRepository.save(orderEntity);
     }
 
     @Override
     @Transactional
+    public void uploadPhoto(Long orderId, MultipartFile zipFIle) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
+        dataValidator.validateFile(zipFIle);
+        try {
+            orderEntity.setPhotoUrl(zipFIle.getResource().getURL().toString());
+        } catch (IOException exception) {
+            System.out.println("Found exception in provided file. " + exception.getLocalizedMessage());
+        }
+        orderEntity.setOrderStatus(UPLOADED);
+        orderRepository.save(orderEntity);
+    }
+
+    @Override
+    @Transactional
+    public void verifyContent(Long orderId, String photoUrl) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
+        dataValidator.validatePhotoContent(photoUrl); // now it goes well and will moved to COMPLETED, after logic should be added
+        orderEntity.setOrderStatus(COMPLETED);
+        orderRepository.save(orderEntity);
+    }
+
+
+    @Override
+    @Transactional
     public void cancel(Long orderId) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        if (!orderEntity.getPhotographers().isEmpty()) {
+            // remove all related photographers, hopefully without ConcurrentModificationException :)
+            List<PhotographerEntity> photographers = orderEntity.getPhotographers();
+            for (Iterator<PhotographerEntity> iterator = photographers.iterator(); iterator.hasNext(); ) {
+                PhotographerEntity photographer = iterator.next();
+                orderEntity.removePhotographer(photographer);
+            }
+        }
         orderRepository.delete(orderEntity);
-    }
-
-    @Override
-    @Transactional
-    public void assign(Long orderId, Long photographerId) {
-        // TODO find order by id, otherwise exception: orderRepository.findById(orderId)
-        // TODO find photographer by id, otherwise exception photographerRepository.findById(photographerId)
-        // TODO add photographer with entity util method: order.addPhotographer()
-        // TODO save order: orderRepository.save(order)
-    }
-
-    @Override
-    @Transactional
-    public void unassign(Long orderId, Long photographerId) {
-        // TODO find order by id, otherwise exception: orderRepository.findById(orderId)
-        // TODO find photographer by id, otherwise exception photographerRepository.findById(photographerId)
-        // TODO remove photographer with entity util method: order.removePhotographer()
-        // TODO save order: orderRepository.save(order)
-    }
-
-
-    @Override
-    @Transactional
-    public void uploadPhoto(Long orderId, String photoUrl) {
-        // example in AWS can check the image existence in WEB
-        // TODO find photographer by id
-        // TODO find order by photographer id
-        // TODO Check with photo url that photo exists in web and that is zipped
-        // TODO add photo link to order entity - probably we should have photoUrl field what was not in requirments
-        // TODO save order: orderRepository.save(order)
     }
 }

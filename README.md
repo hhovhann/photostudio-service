@@ -9,51 +9,72 @@
 ## Software Behaviour
 System can be designed as a Spring Boot Web Application Rest API and support following endpoints:
 
+- Order Endpoints
 ```
-   * CREATE ORDER WITHOUT DATE AND TIME
-       POST /api/orderEntity/
+* Create order withoutthe date and time
+    POST /api/v1/order
        
-       {
-           firstName: "My First Name",
-           lastName : "My First Name",
-           email: "my_email@gmail.com",
-           phone: "+39123456789",
-           order_type: "REAL_ESTATE | FOOD"
-       }
+    {
+      "name": "Hayk",
+      "surname": "Hovhannisyan",
+      "email": "haik.hovhanisyan@gmail.com",
+      "title": "title",
+      "logisticInfo": "logistic info",
+      "cell_number": "+39123456789",
+      "photo_type": "REAL_ESTATE"
+    }
     
-    * CREATE ORDER WITH DATE AND TIME
-       POST /api/orderEntity/
+* Create order with the date and time
+    {
+      "name": "Hayk",
+      "surname": "Hovhannisyan",
+      "email": "haik.hovhanisyan@gmail.com",
+      "title": "title",
+      "logisticInfo": "logistic info",
+      "localDateTime": "2021-07-13T19:02:16.990Z",
+      "cell_number": "+39123456789",
+      "photo_type": "REAL_ESTATE"
+    }
        
-       {
-           firstName: "My First Name",
-           lastName : "My First Name",
-           email: "my_email@gmail.com",
-           phone: "+39123456789",
-           order_type: "REAL_ESTATE | FOOD",
-           date_and_time: "dd-MM-yyyy HH:mm:ss"
-       }
+* Update order with the date and time
+   PATCH /api/v1/order/{order_id}
+
+   { 
+       date_and_time: "dd-MM-yyyy HH:mm:ss"
+   }
+  
+*  Assign order to the photographer
+   POST /api/v1/order/{order_id}/photographer/{photographer_id}
+
+               
+*  Upload photo from photographerEntity
+   POST /api/v1//order/file/{order_id}
+   Request Param: Upload the zip file
+          
+*  Verify photo content 
+   POST /api/v1/order/photo/{order_id}
+   { 
+       photoUrl: "https://etimg.etb2bimg.com/photo/83034773.cms"
+   }
        
-     * UPDATE ORDER WITH DATE AND TIME
-        PUT /api/orderEntity//{order_id}
+*  Cancel the order
+   DELETE /api/v1/order/{order_id}/photographer/{photographer_id}
+
+   
+
+*Photographer Endpoints
      
-        { 
-            date_and_time: "dd-MM-yyyy HH:mm:ss"
-        }
-     
-     *  CANCEL ORDER
-        DELETE /api/orderEntity/{order_id} 
-       
-     *  ASSIGN ORDER
-        POST /api/orderEntity/{order_id}/photographerEntity/{photographer_id}
-     
-     *  UNASSIGN ORDER
-        DELETE /api/orderEntity/{order_id}/photographerEntity/{photographer_id}
-       
-     *  Upload photo from photographerEntity
-        POST /api/orderEntity/photographerEntity/{photographer_id}
-        { 
-            photoUrl: "https://etimg.etb2bimg.com/photo/83034773.cms"
-        }
+     *  Add photographers
+        POST /api/v1/photographers
+        [ 
+            {
+               name: "Photographer name",
+               surname : "My First Name",
+               email: "my_email@gmail.com",
+               cell_number: "+39123456789",
+            }
+        ]
+        
    ```
 
 ## Security Support

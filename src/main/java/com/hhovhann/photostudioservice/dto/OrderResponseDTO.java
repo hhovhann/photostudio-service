@@ -3,13 +3,13 @@ package com.hhovhann.photostudioservice.dto;
 import java.time.LocalDateTime;
 
 public class OrderResponseDTO {
-    private Long orderId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String orderType;
 
+    private Long orderId;
+    private String name;
+    private String surname;
+    private String email;
+    private String cellNumber;
+    private String orderType;
     private LocalDateTime localDateTime;
 
     public Long getOrderId() {
@@ -20,20 +20,20 @@ public class OrderResponseDTO {
         this.orderId = orderId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -44,12 +44,12 @@ public class OrderResponseDTO {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCellNumber() {
+        return cellNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCellNumber(String cellNumber) {
+        this.cellNumber = cellNumber;
     }
 
     public String getOrderType() {

@@ -4,28 +4,28 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class ContactData {
-    private String firstName;
+    private String name;
 
-    private String lastName;
+    private String surname;
 
     private String email;
 
-    private String phone;
+    private String cellNumber;
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String firstName) {
+        this.name = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String lastName) {
+        this.surname = lastName;
     }
 
     public String getEmail() {
@@ -36,11 +36,11 @@ public class ContactData {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCellNumber() {
+        return cellNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCellNumber(String phone) {
+        this.cellNumber = phone;
     }
 }
