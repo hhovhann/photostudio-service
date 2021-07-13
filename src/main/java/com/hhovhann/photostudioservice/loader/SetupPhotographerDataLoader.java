@@ -1,7 +1,7 @@
 package com.hhovhann.photostudioservice.loader;
 
-import com.hhovhann.photostudioservice.domain.ContactData;
-import com.hhovhann.photostudioservice.domain.Photographer;
+import com.hhovhann.photostudioservice.domain.data.ContactData;
+import com.hhovhann.photostudioservice.domain.entity.Photographer;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -26,6 +26,7 @@ public class SetupPhotographerDataLoader implements ApplicationListener<ContextR
         firstContactData.setEmail("fisrt_photographer@mail.com");
         firstContactData.setPhone("+391234567890");
         firstPhotographer.setContactData(firstContactData);
+
         photographerRepository.save(firstPhotographer);
 
         Photographer twoPhotographer = new Photographer();
@@ -35,6 +36,7 @@ public class SetupPhotographerDataLoader implements ApplicationListener<ContextR
         secondPhotographer.setEmail("second_photographer@mail.com");
         secondPhotographer.setPhone("+391234567890");
         firstPhotographer.setContactData(secondPhotographer);
+
         photographerRepository.save(twoPhotographer);
 
 

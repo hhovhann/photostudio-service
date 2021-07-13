@@ -1,8 +1,11 @@
-package com.hhovhann.photostudioservice.domain;
+package com.hhovhann.photostudioservice.domain.entity;
 
+
+import com.hhovhann.photostudioservice.domain.data.ContactData;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -15,8 +18,8 @@ public class Photographer {
     @Embedded
     private ContactData contactData;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn( name = "order_id", referencedColumnName = "id")
     private Order order;
 
     public Photographer() {

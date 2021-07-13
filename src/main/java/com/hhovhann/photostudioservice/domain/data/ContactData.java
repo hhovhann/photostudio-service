@@ -1,4 +1,4 @@
-package com.hhovhann.photostudioservice.domain;
+package com.hhovhann.photostudioservice.domain.data;
 
 import javax.persistence.Embeddable;
 

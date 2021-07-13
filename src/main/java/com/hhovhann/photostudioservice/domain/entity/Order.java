@@ -1,4 +1,8 @@
-package com.hhovhann.photostudioservice.domain;
+package com.hhovhann.photostudioservice.domain.entity;
+
+import com.hhovhann.photostudioservice.domain.data.ContactData;
+import com.hhovhann.photostudioservice.domain.data.OrderStatus;
+import com.hhovhann.photostudioservice.domain.data.OrderType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +15,6 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 public class Order {
 
-
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
@@ -20,12 +23,16 @@ public class Order {
     private ContactData contactData;
 
     @Enumerated(STRING)
+    private OrderType orderType;
+
+    @Enumerated(STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE} ,orphanRemoval = true)
     private Set<Photographer> photographers = new HashSet<>();
 
     private String title;
+
     private LocalDateTime localDateTime;
 
     public Order() {
@@ -41,6 +48,14 @@ public class Order {
 
     public ContactData getContactData() {
         return contactData;
+    }
+
+    public OrderStatus getOrderType() {
+        return orderStatus;
+    }
+
+    public void setOrderType(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public void setContactData(ContactData contactData) {

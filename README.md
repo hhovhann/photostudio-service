@@ -3,7 +3,7 @@
 ## Software Environment
 
 * Spring Boot 2.5.2
-* Java 11
+* Java 11.0.8
 + Maven 3.6.3
 
 ## Software Behaviour
@@ -61,14 +61,14 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
 ## Software Design and Diagram
 Please check the [Photostudio Diagramm](design/photostudio.png)
 
-# Comments Nice To have
-Versioning support for rest api
-Create and Delete Order can support bulk creation
-Test coverage
-DB rider integration
-Swagger integration
-Security Roles support for different players
+# Nice To have
+-Versioning support for rest api
+-Create and Delete Order can support bulk creation
+-Test coverage
+-DB rider integration for tests
+-OpenAPI/Swagger integration for API specification
+-Controller Security Roles support for different type of users
 
 
 # Questions
-All questions plus the question about photo URL
+All questions asked by email + the questions about photo URL, zip

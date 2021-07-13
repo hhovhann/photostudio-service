@@ -1,20 +1,29 @@
 package com.hhovhann.photostudioservice.mapper;
 
-import com.hhovhann.photostudioservice.domain.Order;
+import com.hhovhann.photostudioservice.domain.entity.Order;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderMapper {
 
-    private final ModelMapper modelMapper;
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     public OrderMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
-    public Order toEntity(OrderResponseDTO orderResponseDTO) {
-        return modelMapper.map(orderResponseDTO, Order.class);
+    private final ModelMapper modelMapper;
+
+
+    public OrderResponseDTO toDto(Order order) {
+        return modelMapper.map(order, OrderResponseDTO.class);
     }
 
     public Order toEntity(OrderRequestDTO orderRequestDTO) {

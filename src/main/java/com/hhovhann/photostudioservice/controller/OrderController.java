@@ -1,8 +1,8 @@
 package com.hhovhann.photostudioservice.controller;
 
-import com.hhovhann.photostudioservice.domain.Order;
+import com.hhovhann.photostudioservice.domain.entity.Order;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
-import com.hhovhann.photostudioservice.service.OrderService;
+import com.hhovhann.photostudioservice.service.OrderServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,9 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/api/order")
 public class OrderController {
 
-    private final OrderService orderService;
+    private final OrderServiceImpl orderService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderServiceImpl orderService) {
         this.orderService = orderService;
     }
 
