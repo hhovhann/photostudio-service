@@ -2,6 +2,7 @@
 
 # Nice to have in future versions
 -Test coverage
+-Test containers can be used for proper database
 -DB rider integration could be used for unit tests (controller, repository layer)
 -Bulk create/delete for OrderEntity, as we have for PhotographerEntity
 -OpenAPI/Swagger more integration for API specification

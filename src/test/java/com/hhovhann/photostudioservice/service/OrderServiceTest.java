@@ -9,35 +9,36 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("Should Create Order with date time")
-    void create_with_date() {
+    void shouldSuccessfullyCreateOrderWithDataTime() {
     }
 
     @Test
     @DisplayName("Should Create Order with date time")
-    void create_without_date() {
+    void shouldSuccessfullyCreateOrderWithoutDataTime() {
     }
 
     @Test
     @DisplayName("Should Update Order with date time")
-    void update() {
+    void shouldSuccessfullyUpdateOrderWithDataTime() {
     }
 
     @Test
     @DisplayName("Should assign Order to the photographer")
-    void assign() {
+    void shouldSuccessfullyAssignOrderToPhotographer() {
     }
 
     @Test
     @DisplayName("Should upload the zip file")
-    void uploadPhoto() {
+    void shouldSuccessfullyUploadImageToOrder() {
     }
 
     @Test
     @DisplayName("Should verify file content")
-    void verifyContent() {
+    void shouldSuccessfullyVerifyImageContent() {
     }
 
     @Test
-    void cancel() {
+    @DisplayName("Should cancel the order and remove from database")
+    void shouldSuccessfullyCancelOrder() {
     }
 }
