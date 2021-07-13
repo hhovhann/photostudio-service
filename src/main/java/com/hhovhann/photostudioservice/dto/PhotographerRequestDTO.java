@@ -1,5 +1,7 @@
 package com.hhovhann.photostudioservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotNull;
 
 public class PhotographerRequestDTO {
@@ -10,6 +12,7 @@ public class PhotographerRequestDTO {
     @NotNull(message = "Email may not be null")
     private String email;
     @NotNull(message = "Cell number may not be null")
+    @JsonProperty("cell_number")
     private String cellNumber;
 
     public String getName() {

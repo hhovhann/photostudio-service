@@ -64,17 +64,16 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
 
 *Photographer Endpoints
      
-     *  Add photographers
-        POST /api/v1/photographers
-        [ 
-            {
-               name: "Photographer name",
-               surname : "My First Name",
-               email: "my_email@gmail.com",
-               cell_number: "+39123456789",
-            }
-        ]
-        
+*  Add photographers
+   POST /api/v1/photographers
+    [
+      {
+        "name": "Hayk",
+        "surname": "Hovhannisyan",
+        "email": "haik.hovhanisyan@gmail.com",
+        "cell_number": "+39123456789",
+      }
+    ] 
    ```
 
 ## Security Support

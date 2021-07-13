@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
     public void verifyContent(Long orderId, String photoUrl) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
-        dataValidator.validatePhotoContent(photoUrl); // now it goes well and will moved to COMPLETED, after logic should be added
+        dataValidator.validatePhotoContent(photoUrl); // now it goes well and will change the status to COMPLETED, in future logic should be added where not verified will change status back to ASSIGNED
         orderEntity.setOrderStatus(COMPLETED);
         orderRepository.save(orderEntity);
     }

@@ -15,13 +15,9 @@ import java.util.Set;
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
     private final PhotographerRepository photographerRepository;
-    private final OrderRepository orderRepository;
-    private final DataValidator dataValidator;
 
     public PhotographerServiceImpl(PhotographerRepository photographerRepository, OrderRepository orderRepository, DataValidator dataValidator) {
         this.photographerRepository = photographerRepository;
-        this.orderRepository = orderRepository;
-        this.dataValidator = dataValidator;
     }
 
     @Override
@@ -41,5 +37,4 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         photographerRepository.saveAll(photographerEntities);
     }
-
 }
