@@ -1,6 +1,6 @@
 package com.hhovhann.photostudioservice.service;
 
-import com.hhovhann.photostudioservice.domain.entity.Order;
+import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public interface OrderService {
      * Find all stored orders
      * @return list of orders
      */
-    List<Order> findAll();
+    List<OrderEntity> findAll();
 
     /***
      * Create order with or without local date time

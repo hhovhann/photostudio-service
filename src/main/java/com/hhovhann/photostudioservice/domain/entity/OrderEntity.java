@@ -3,43 +3,48 @@ package com.hhovhann.photostudioservice.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
-import com.hhovhann.photostudioservice.domain.data.OrderType;
+import com.hhovhann.photostudioservice.domain.data.PhotoType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-public class Order {
+public class OrderEntity implements Serializable {
+    private static final long serialVersionUID = -2366519023138553485L;
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "order_seq")
-    @SequenceGenerator(allocationSize = 100, name = "order_seq", sequenceName = "order_sequence")
+    @SequenceGenerator(allocationSize = 70, name = "order_seq", sequenceName = "order_sequence")
     private Long id;
 
     @Embedded
+    @NotNull
     private ContactData contactData;
 
     @Enumerated(STRING)
-    private OrderType orderType;
+    private PhotoType photoType;
 
     @Enumerated(STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Photographer> photographers = new ArrayList<>();
+    private List<PhotographerEntity> photographerEntities = new ArrayList<>();
 
     private String title;
 
+    private String logisticInfo;
+
     private LocalDateTime localDateTime;
 
-    public Order() {
+    public OrderEntity() {
     }
 
     public Long getId() {
@@ -54,12 +59,12 @@ public class Order {
         return contactData;
     }
 
-    public OrderType getOrderType() {
-        return orderType;
+    public PhotoType getOrderType() {
+        return photoType;
     }
 
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
+    public void setOrderType(PhotoType photoType) {
+        this.photoType = photoType;
     }
 
     public OrderStatus getOrderStatus() {
@@ -74,12 +79,12 @@ public class Order {
         this.contactData = contactData;
     }
 
-    public List<Photographer> getPhotographers() {
-        return photographers;
+    public List<PhotographerEntity> getPhotographers() {
+        return photographerEntities;
     }
 
-    public void setPhotographers(List<Photographer> photographers) {
-        this.photographers = photographers;
+    public void setPhotographers(List<PhotographerEntity> photographerEntities) {
+        this.photographerEntities = photographerEntities;
     }
 
     public String getTitle() {
@@ -90,6 +95,14 @@ public class Order {
         this.title = title;
     }
 
+    public String getLogisticInfo() {
+        return logisticInfo;
+    }
+
+    public void setLogisticInfo(String logisticInfo) {
+        this.logisticInfo = logisticInfo;
+    }
+
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
@@ -98,13 +111,13 @@ public class Order {
         this.localDateTime = localDateTime;
     }
 
-    public void addPhotographer(Photographer photographer) {
-        photographers.add(photographer);
-        photographer.setOrder(this);
+    public void addPhotographer(PhotographerEntity photographerEntity) {
+        photographerEntities.add(photographerEntity);
+        photographerEntity.setOrder(this);
     }
 
-    public void removePhotographer(Photographer photographer) {
-        photographers.remove(photographer);
-        photographer.setOrder(null);
+    public void removePhotographer(PhotographerEntity photographerEntity) {
+        photographerEntities.remove(photographerEntity);
+        photographerEntity.setOrder(null);
     }
 }

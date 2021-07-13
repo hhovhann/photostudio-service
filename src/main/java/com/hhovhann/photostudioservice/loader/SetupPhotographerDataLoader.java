@@ -1,7 +1,7 @@
 package com.hhovhann.photostudioservice.loader;
 
 import com.hhovhann.photostudioservice.domain.data.ContactData;
-import com.hhovhann.photostudioservice.domain.entity.Photographer;
+import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -12,14 +12,18 @@ public class SetupPhotographerDataLoader implements ApplicationListener<ContextR
 
     boolean alreadySetup = false;
 
-    private PhotographerRepository photographerRepository;
+    private final PhotographerRepository photographerRepository;
+
+    public SetupPhotographerDataLoader(PhotographerRepository photographerRepository) {
+        this.photographerRepository = photographerRepository;
+    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         if (alreadySetup)
             return;
 
-        Photographer firstPhotographer = new Photographer();
+        PhotographerEntity firstPhotographer = new PhotographerEntity();
         ContactData firstContactData = new ContactData();
         firstContactData.setFirstName("First Photographer First Name");
         firstContactData.setLastName("First Photographer Last Name");
@@ -29,7 +33,7 @@ public class SetupPhotographerDataLoader implements ApplicationListener<ContextR
 
         photographerRepository.save(firstPhotographer);
 
-        Photographer twoPhotographer = new Photographer();
+        PhotographerEntity twoPhotographer = new PhotographerEntity();
         ContactData secondPhotographer = new ContactData();
         secondPhotographer.setFirstName("Second Photographer First Name");
         secondPhotographer.setLastName("Second Photographer Last Name");
@@ -38,7 +42,6 @@ public class SetupPhotographerDataLoader implements ApplicationListener<ContextR
         firstPhotographer.setContactData(secondPhotographer);
 
         photographerRepository.save(twoPhotographer);
-
 
         alreadySetup = true;
     }

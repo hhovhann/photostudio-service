@@ -1,17 +1,18 @@
 package com.hhovhann.photostudioservice.service;
 
-import com.hhovhann.photostudioservice.domain.entity.Order;
+import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hhovhann.photostudioservice.domain.data.OrderStatus.REGISTERED;
-import static com.hhovhann.photostudioservice.domain.data.OrderStatus.UNREGISTERED;
+import static com.hhovhann.photostudioservice.domain.data.OrderStatus.PENDING;
+import static com.hhovhann.photostudioservice.domain.data.OrderStatus.UNSCHEDULED;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -22,39 +23,48 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
     }
+
     @Override
-    public List<Order> findAll() {
+    public List<OrderEntity> findAll() {
         return orderRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Long create(OrderRequestDTO orderRequestDTO) {
-        Order order = orderMapper.toEntity(orderRequestDTO);
+        OrderEntity orderEntity = orderMapper.toEntity(orderRequestDTO);
         if (Objects.isNull(orderRequestDTO.getLocalDateTime())) {
-            order.setOrderStatus(UNREGISTERED);
+            orderEntity.setOrderStatus(UNSCHEDULED);
+
         } else {
-            // TODO check that date in range of working hours from 8 - 24.00
-            order.setOrderStatus(REGISTERED);
+            // Validate local date time
+            // TODO check hours 8 >= orderRequestDTO.getLocalDateTime().getHour() <= 24
+            //  TODO check minutes 00 >= orderRequestDTO.getLocalDateTime().getMinute() <= 59
+            // TODO check that date in range of working hours from 8 - 20.00
+            orderEntity.setOrderStatus(PENDING);
         }
-        orderRepository.save(order);
-        return order.getId();
+        orderRepository.save(orderEntity);
+        return orderEntity.getId();
     }
 
     @Override
+    @Transactional
     public void update(Long orderId, LocalDateTime localDateTime) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
-        order.setLocalDateTime(Objects.requireNonNull(localDateTime));
-        order.setOrderStatus(REGISTERED);
-        orderRepository.save(order);
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        orderEntity.setLocalDateTime(Objects.requireNonNull(localDateTime));
+        orderEntity.setOrderStatus(PENDING);
+        orderRepository.save(orderEntity);
     }
 
     @Override
+    @Transactional
     public void cancel(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
-        orderRepository.delete(order);
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        orderRepository.delete(orderEntity);
     }
 
     @Override
+    @Transactional
     public void assign(Long orderId, Long photographerId) {
         // TODO find order by id, otherwise exception: orderRepository.findById(orderId)
         // TODO find photographer by id, otherwise exception photographerRepository.findById(photographerId)
@@ -63,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void unassign(Long orderId, Long photographerId) {
         // TODO find order by id, otherwise exception: orderRepository.findById(orderId)
         // TODO find photographer by id, otherwise exception photographerRepository.findById(photographerId)
@@ -71,9 +82,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
     @Override
+    @Transactional
     public void uploadPhoto(Long orderId, String photoUrl) {
+        // example in AWS can check the image existence in WEB
         // TODO find photographer by id
         // TODO find order by photographer id
         // TODO Check with photo url that photo exists in web and that is zipped

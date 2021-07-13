@@ -11,7 +11,7 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
 
 ```
    * CREATE ORDER WITHOUT DATE AND TIME
-       POST /api/order/
+       POST /api/orderEntity/
        
        {
            firstName: "My First Name",
@@ -22,7 +22,7 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
        }
     
     * CREATE ORDER WITH DATE AND TIME
-       POST /api/order/
+       POST /api/orderEntity/
        
        {
            firstName: "My First Name",
@@ -34,29 +34,29 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
        }
        
      * UPDATE ORDER WITH DATE AND TIME
-        PUT /api/order//{order_id}
+        PUT /api/orderEntity//{order_id}
      
         { 
             date_and_time: "dd-MM-yyyy HH:mm:ss"
         }
      
      *  CANCEL ORDER
-        DELETE /api/order/{order_id} 
+        DELETE /api/orderEntity/{order_id} 
        
      *  ASSIGN ORDER
-        POST /api/order/{order_id}/photographer/{photographer_id}
+        POST /api/orderEntity/{order_id}/photographerEntity/{photographer_id}
      
      *  UNASSIGN ORDER
-        DELETE /api/order/{order_id}/photographer/{photographer_id}
+        DELETE /api/orderEntity/{order_id}/photographerEntity/{photographer_id}
        
-     *  Upload photo from photographer
-        POST /api/order/photographer/{photographer_id}
+     *  Upload photo from photographerEntity
+        POST /api/orderEntity/photographerEntity/{photographer_id}
         { 
             photoUrl: "https://etimg.etb2bimg.com/photo/83034773.cms"
         }
    ```
 
-
+## Security Support
 
 ## Software Design and Diagram
 Please check the [Photostudio Diagramm](design/photostudio.png)
@@ -67,7 +67,8 @@ Please check the [Photostudio Diagramm](design/photostudio.png)
 -Test coverage
 -DB rider integration for tests
 -OpenAPI/Swagger integration for API specification
--Controller Security Roles support for different type of users
+-Current software support basic authentication with username:passowrd {admin:admin} which can be extended in the future versions.
+
 
 
 # Questions

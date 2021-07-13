@@ -17,10 +17,8 @@ public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityC
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/*").permitAll()
+                .antMatchers("/", "/v3/api-docs", "/v3/api-docs/*", "/api-docs.yaml", "/swagger-ui.html",  "/swagger-ui/*").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login").permitAll()
                 .and()
                 .logout()
                 .permitAll();
@@ -31,9 +29,9 @@ public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityC
     public UserDetailsService userDetailsService() {
         UserDetails user =
                 User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
+                        .username("admin")
+                        .password("admin")
+                        .roles("ADMIN")
                         .build();
 
         return new InMemoryUserDetailsManager(user);
