@@ -1,5 +1,6 @@
 package com.hhovhann.photostudioservice.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.domain.data.OrderType;
@@ -11,12 +12,14 @@ import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = SEQUENCE, generator = "order_seq")
+    @SequenceGenerator(allocationSize = 100, name = "order_seq", sequenceName = "order_sequence")
     private Long id;
 
     @Embedded
@@ -29,6 +32,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Photographer> photographers = new ArrayList<>();
 
     private String title;

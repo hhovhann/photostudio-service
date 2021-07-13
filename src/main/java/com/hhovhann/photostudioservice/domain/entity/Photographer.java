@@ -12,14 +12,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Photographer {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "photographer_seq")
+    @SequenceGenerator(initialValue = 1, name = "photographer_seq", sequenceName = "photographer_sequence")
     private Long id;
 
     @Embedded
     private ContactData contactData;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn( name = "order_id")
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_order_id"), name = "order_id")
     private Order order;
 
     public Photographer() {
