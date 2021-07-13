@@ -7,7 +7,7 @@
 + Maven 3.6.3
 
 ## Software Behaviour
-System can be designed as a Spring Boot Web Application Rest API and support following endpoints:
+System designed as a Spring Boot Web Application. Provides Rest API with following endpoints:
 
 - Order Endpoints
 ```
@@ -45,25 +45,21 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
   
 *  Assign order to the photographer
    POST /api/v1/order/{order_id}/photographer/{photographer_id}
-
                
 *  Upload photo from photographerEntity
    POST /api/v1//order/file/{order_id}
-   Request Param: Upload the zip file
+   BODY Request Param: Upload the zip file
           
 *  Verify photo content 
    POST /api/v1/order/photo/{order_id}
-   { 
-       photoUrl: "https://etimg.etb2bimg.com/photo/83034773.cms"
-   }
+   BODY "https://etimg.etb2bimg.com/photo/83034773.cms"
        
 *  Cancel the order
    DELETE /api/v1/order/{order_id}/photographer/{photographer_id}
+```   
 
-   
-
-*Photographer Endpoints
-     
+- Photographer Endpoints
+```     
 *  Add photographers
    POST /api/v1/photographers
     [
@@ -74,7 +70,7 @@ System can be designed as a Spring Boot Web Application Rest API and support fol
         "cell_number": "+39123456789",
       }
     ] 
-   ```
+```
 
 ## Security Support
 
