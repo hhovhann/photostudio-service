@@ -24,7 +24,6 @@ public class DataValidator {
      * @param file - photos in zipped file
      * */
     public void validateFile(MultipartFile file) {
-        // Checks the file ends with zip and return true now
         boolean endsWith = file.getOriginalFilename().endsWith("zip");
         if (!endsWith) {
             throw new ValidationException("The uploaded file should be zipped");

@@ -25,7 +25,6 @@ public class PhotographerEntity implements Serializable {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_photographer_order_id"))
-//    @JoinColumn(name = "id", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_photographer_order_id"))
     private OrderEntity orderEntity;
 
     public PhotographerEntity() {

@@ -22,7 +22,7 @@ class PhotographerControllerTest {
 
     @Test
     @DisplayName("Should Create Photographers")
-     public void shouldReturnDefaultMessage() {
+    public void shouldSuccessfullyCreatesPhotographers() {
         // given
         PhotographerRequestDTO firstPhotographer = new PhotographerRequestDTO();
         firstPhotographer.setName("Hayk1");

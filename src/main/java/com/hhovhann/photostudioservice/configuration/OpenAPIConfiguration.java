@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SecurityScheme(
-        name = "basicAuth", // can be set to anything
+        name = "basicAuth",
         type = SecuritySchemeType.HTTP,
         scheme = "basic"
 )
 @OpenAPIDefinition(
         info = @Info(title = "Photo Studio Service API", version = "v1"),
-        security = @SecurityRequirement(name = "basicAuth") // references the name defined in the line 3
+        security = @SecurityRequirement(name = "basicAuth")
 )
 class OpenAPIConfiguration {
 
