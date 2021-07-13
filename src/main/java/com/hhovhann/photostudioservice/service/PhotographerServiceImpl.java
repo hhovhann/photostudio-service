@@ -30,8 +30,8 @@ public class PhotographerServiceImpl implements PhotographerService {
         photographerRequestDTOs.forEach(photographerRequestDTO -> {
             PhotographerEntity photographer = new PhotographerEntity();
             ContactData firstContactData = new ContactData();
-            firstContactData.setName(photographerRequestDTO.getFirstName());
-            firstContactData.setSurname(photographerRequestDTO.getLastName());
+            firstContactData.setName(photographerRequestDTO.getName());
+            firstContactData.setSurname(photographerRequestDTO.getSurname());
             firstContactData.setEmail(photographerRequestDTO.getEmail());
             firstContactData.setCellNumber(photographerRequestDTO.getEmail());
             photographer.setContactData(firstContactData);

@@ -3,30 +3,29 @@ package com.hhovhann.photostudioservice.dto;
 import javax.validation.constraints.NotNull;
 
 public class PhotographerRequestDTO {
-    @NotNull(message = "First Name may not be null")
-    private String firstName;
-    @NotNull(message = "Last Name may not be null")
-    private String lastName;
+    @NotNull(message = "Name may not be null")
+    private String name;
+    @NotNull(message = "Surname may not be null")
+    private String surname;
     @NotNull(message = "Email may not be null")
     private String email;
-    @NotNull(message = "Phone may not be null")
-    private String phone;
-    @NotNull(message = "Order Type may not be null")
+    @NotNull(message = "Cell number may not be null")
+    private String cellNumber;
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -37,12 +36,12 @@ public class PhotographerRequestDTO {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCellNumber() {
+        return cellNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCellNumber(String cellNumber) {
+        this.cellNumber = cellNumber;
     }
 
 }

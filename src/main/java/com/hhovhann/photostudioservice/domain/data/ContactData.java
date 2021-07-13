@@ -16,16 +16,16 @@ public class ContactData {
         return name;
     }
 
-    public void setName(String firstName) {
-        this.name = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String lastName) {
-        this.surname = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -40,7 +40,7 @@ public class ContactData {
         return cellNumber;
     }
 
-    public void setCellNumber(String phone) {
-        this.cellNumber = phone;
+    public void setCellNumber(String cellNumber) {
+        this.cellNumber = cellNumber;
     }
 }
