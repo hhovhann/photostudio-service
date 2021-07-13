@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
@@ -38,5 +38,7 @@ class PhotographerControllerTest {
         List<PhotographerRequestDTO> photographerDtos = Arrays.asList(firstPhotographer, secondPhotographer);
 
         photographerController.create(photographerDtos);
+
+        Mockito.verify(photographerService).create(photographerDtos);
     }
 }
