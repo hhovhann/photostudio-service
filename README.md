@@ -78,14 +78,9 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 Please check the [Photostudio Diagramm](design/photostudio.png)
 
 # Nice To have
--Versioning support for rest api
--Create and Delete Order can support bulk creation
--Test coverage
--DB rider integration for tests
--OpenAPI/Swagger integration for API specification
--Current software support basic authentication with username:passowrd {admin:admin} which can be extended in the future versions.
-
-
-
-# Questions
-All questions asked by email + the questions about photo URL, zip
+- Versioning support for rest api
+- Create and Delete Order can support bulk creation
+- Test coverage
+- DB rider integration for tests
+- OpenAPI/Swagger integration for API specification
+- Current software support basic authentication with username:passowrd {admin:admin} which can be extended in the future versions.
