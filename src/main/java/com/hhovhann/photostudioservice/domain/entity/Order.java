@@ -6,17 +6,17 @@ import com.hhovhann.photostudioservice.domain.data.OrderType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Embedded
@@ -28,8 +28,8 @@ public class Order {
     @Enumerated(STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE} ,orphanRemoval = true)
-    private Set<Photographer> photographers = new HashSet<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photographer> photographers = new ArrayList<>();
 
     private String title;
 
@@ -50,16 +50,12 @@ public class Order {
         return contactData;
     }
 
-    public OrderStatus getOrderType() {
-        return orderStatus;
+    public OrderType getOrderType() {
+        return orderType;
     }
 
-    public void setOrderType(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public void setContactData(ContactData contactData) {
-        this.contactData = contactData;
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
     }
 
     public OrderStatus getOrderStatus() {
@@ -70,11 +66,15 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Set<Photographer> getPhotographers() {
+    public void setContactData(ContactData contactData) {
+        this.contactData = contactData;
+    }
+
+    public List<Photographer> getPhotographers() {
         return photographers;
     }
 
-    public void setPhotographers(Set<Photographer> photographers) {
+    public void setPhotographers(List<Photographer> photographers) {
         this.photographers = photographers;
     }
 

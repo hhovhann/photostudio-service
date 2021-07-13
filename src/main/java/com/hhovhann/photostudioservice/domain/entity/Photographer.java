@@ -6,20 +6,20 @@ import com.hhovhann.photostudioservice.domain.data.ContactData;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Photographer {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Embedded
     private ContactData contactData;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn( name = "order_id", referencedColumnName = "id")
+    @JoinColumn( name = "order_id")
     private Order order;
 
     public Photographer() {

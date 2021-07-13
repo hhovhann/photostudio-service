@@ -14,8 +14,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @Validated
-@RestController
-@RequestMapping("/api/order")
+@RestController("/api/order")
 public class OrderController {
 
     private final OrderServiceImpl orderService;

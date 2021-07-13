@@ -1,5 +1,9 @@
 package com.hhovhann.photostudioservice.dto;
 
+import com.hhovhann.photostudioservice.domain.data.OrderType;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -13,7 +17,10 @@ public class OrderRequestDTO {
     @NotNull(message = "Phone may not be null")
     private String phone;
     @NotNull(message = "Order Type may not be null")
-    private String orderType;
+    @Enumerated(EnumType.STRING)
+    private OrderType orderType;
+
+    private String title;
 
     private LocalDateTime localDateTime;
 
@@ -49,11 +56,11 @@ public class OrderRequestDTO {
         this.phone = phone;
     }
 
-    public String getOrderType() {
+    public OrderType getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(String orderType) {
+    public void setOrderType(OrderType orderType) {
         this.orderType = orderType;
     }
 
@@ -63,5 +70,9 @@ public class OrderRequestDTO {
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
