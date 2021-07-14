@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController("/api/v1/photographer")
+@RestController
 @Tag(name = "Photographer endpoints")
 public class PhotographerController {
 
@@ -22,9 +23,9 @@ public class PhotographerController {
         this.photographerService = photographerService;
 
     }
-    @PostMapping
+    @PostMapping("/v1/api/photographer")
     @ResponseStatus(HttpStatus.CREATED)
-    // TODO could then have Role OPERATORS, who only can verify @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
     public void create(@Valid @RequestBody List<PhotographerRequestDTO> photographerRequestDTOs) {
         photographerService.create(photographerRequestDTOs);
     }

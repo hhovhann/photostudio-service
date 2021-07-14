@@ -11,8 +11,8 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 
 - Order Endpoints
 ```
-* Create order withoutthe date and time
-    POST /api/v1/order
+* Create order withoutthe date and time with user admin with role ADMIN
+    POST /v1/api/order
        
     {
       "name": "Hayk",
@@ -24,7 +24,7 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
       "photo_type": "REAL_ESTATE"
     }
     
-* Create order with the date and time
+* Create order with the date and time with user admin with role ADMIN
     {
       "name": "Hayk",
       "surname": "Hovhannisyan",
@@ -36,32 +36,32 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
       "photo_type": "REAL_ESTATE"
     }
        
-* Update order with the date and time
-   PATCH /api/v1/order/{order_id}
+* Update order with the date and time with user admin with role ADMIN
+   PATCH /v1/api/order/{order_id}
 
    { 
        date_and_time: "dd-MM-yyyy HH:mm:ss"
    }
   
-*  Assign order to the photographer
-   POST /api/v1/order/{order_id}/photographer/{photographer_id}
+*  Assign order to the photographer with user admin with role ADMIN
+   POST /v1/api/order/{order_id}/photographer/{photographer_id}
                
-*  Upload photo from photographerEntity
-   POST /api/v1//order/file/{order_id}
+*  Upload photo from photographerEntity with user admin or photographer with role ADMIN OPERATOR
+   POST /v1/api/order/file/{order_id}
    BODY Request Param: Upload the zip file
           
 *  Verify photo content 
-   POST /api/v1/order/photo/{order_id}
+   POST /v1/api/order/image/{order_id} with user operator with role OPERATOR
    BODY "https://etimg.etb2bimg.com/photo/83034773.cms"
        
 *  Cancel the order
-   DELETE /api/v1/order/{order_id}/photographer/{photographer_id}
+   DELETE /v1/api/order/{order_id}/photographer/{photographer_id}
 ```   
 
 - Photographer Endpoints
 ```     
 *  Add photographers
-   POST /api/v1/photographers
+   POST /v1/api/photographers
     [
       {
         "name": "Hayk",
