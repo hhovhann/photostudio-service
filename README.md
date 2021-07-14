@@ -73,6 +73,11 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 ```
 
 ## Security Support
+There is support for basic authentication now with inmemory username:password `admin:admin`
+
+## Software Run
+Can run application with bach command from project root `./scripts/run.sh`
+Can run the application from the IDEA itself
 
 ## Software Design and Diagram
 Please check the [Photostudio Diagramm](design/photostudio.png)
