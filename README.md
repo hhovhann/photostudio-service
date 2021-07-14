@@ -46,7 +46,7 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 *  Assign order to the photographer with user admin with role ADMIN
    POST /v1/api/order/{order_id}/photographer/{photographer_id}
                
-*  Upload photo from photographerEntity with user admin or photographer with role ADMIN OPERATOR
+*  Upload photo from photographerEntity with user admin or photographer with role ADMIN PHOTOGRAPHER
    POST /v1/api/order/file/{order_id}
    BODY Request Param: Upload the zip file
           
@@ -54,13 +54,13 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
    POST /v1/api/order/image/{order_id} with user operator with role OPERATOR
    BODY "https://etimg.etb2bimg.com/photo/83034773.cms"
        
-*  Cancel the order
+*  Cancel the order with user admin with role ADMIN
    DELETE /v1/api/order/{order_id}/photographer/{photographer_id}
 ```   
 
 - Photographer Endpoints
 ```     
-*  Add photographers
+*  Add photographers with user photographer with role PHOTOGRAPHER
    POST /v1/api/photographers
     [
       {
@@ -73,7 +73,7 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 ```
 
 ## Security Support
-There is support for basic authentication now with inmemory username:password `admin:admin`
+There is support for basic authentication now with inmemory `role: ADMIN username:password admin:admin`, `role: OPERATOR username:password operator:operator`, `role: PHOTOGRAPHER username:password photographer:photographer`
 
 ## Software Run
 Can run application with bach command from project root `./scripts/run.sh`
@@ -88,4 +88,4 @@ Please check the [Photostudio Diagramm](design/photostudio.png)
 - Test coverage
 - DB rider integration for tests
 - OpenAPI/Swagger integration for API specification
-- Current software support basic authentication with username:passowrd {admin:admin} which can be extended in the future versions.
+- Current software support basic authentication, which can be extended in the future versions.

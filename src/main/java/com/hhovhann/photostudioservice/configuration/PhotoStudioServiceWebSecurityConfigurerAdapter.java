@@ -51,15 +51,14 @@ public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityC
 
                 .antMatchers("/v1/api/order").hasRole("ADMIN")
                 .antMatchers("/v1/api/order/*").hasRole("ADMIN")
-                .antMatchers("/v1/api/order/file/*").hasRole("ADMIN,PHOTOGRAPHER")
-                .antMatchers("/v1/api/order/image/*").hasRole("OPERATOR")
+                .antMatchers("/v1/api/order/file/*").hasAnyRole("ADMIN", "PHOTOGRAPHER")
+                .antMatchers("/v1/api/order/image/*").hasAnyRole("ADMIN", "OPERATOR")
                 .antMatchers("/v1/api/photographer").hasRole("PHOTOGRAPHER")
 
                 .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic();
     }
-
 
 
     @Override
