@@ -49,11 +49,11 @@ public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityC
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
 
-                .antMatchers("/v1/api/order").hasRole("ADMIN")
-                .antMatchers("/v1/api/order/*").hasRole("ADMIN")
-                .antMatchers("/v1/api/order/file/*").hasAnyRole("ADMIN", "PHOTOGRAPHER")
-                .antMatchers("/v1/api/order/image/*").hasAnyRole("ADMIN", "OPERATOR")
-                .antMatchers("/v1/api/photographer").hasRole("PHOTOGRAPHER")
+//                .antMatchers("/v1/api/order").hasRole("ADMIN")
+//                .antMatchers("/v1/api/order/*").hasRole("ADMIN")
+//                .antMatchers("/v1/api/order/file/*").hasAnyRole("ADMIN", "PHOTOGRAPHER")
+//                .antMatchers("/v1/api/order/image/*").hasAnyRole("ADMIN", "OPERATOR")
+//                .antMatchers("/v1/api/photographer").hasRole("PHOTOGRAPHER")
 
                 .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
