@@ -32,11 +32,13 @@ public class DataValidator {
 
     /***
      * Checks zip file content against some business logic and accept it, otherwise validation exception about bad content
-     * @param imageURL - photo url where store our zip rescource
+     * @param imageURL - photo url where store our zip file
      */
     public void validatePhotoContent(String imageURL) {
-        // TODO Call third party resource with this photo identifier and do response validation: accept if it's ok, otherwise bad content exception should be thrown
-        // DO NOTHING FOR NOW;
+        // TODO Call third party resource with this photo identifier and verify the content accept if it's ok, otherwise exception
+        if(imageURL.isEmpty()){
+            throw new ValidationException("The uploaded file identifier is empty");
+        }
     }
 
     /***
