@@ -76,6 +76,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
         dataValidator.validateFile(zipFIle);
+        // TODO upload file to photo storage, take URL and store in database the image URL, now I just using rescource URL
         try {
             orderEntity.setImageURL(zipFIle.getResource().getURL().toString());
         } catch (IOException exception) {
