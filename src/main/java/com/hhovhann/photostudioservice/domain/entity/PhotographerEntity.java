@@ -1,10 +1,8 @@
 package com.hhovhann.photostudioservice.domain.entity;
 
-
 import com.hhovhann.photostudioservice.domain.data.ContactData;
-
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 import static javax.persistence.FetchType.LAZY;
@@ -21,6 +19,7 @@ public class PhotographerEntity implements Serializable {
     private Long id;
 
     @Embedded
+    @NotNull
     private ContactData contactData;
 
     @ManyToOne(fetch = LAZY)

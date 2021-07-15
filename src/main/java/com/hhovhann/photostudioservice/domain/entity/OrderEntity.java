@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.domain.data.PhotoType;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -29,9 +28,11 @@ public class OrderEntity implements Serializable {
     private ContactData contactData;
 
     @Enumerated(STRING)
+    @NotNull
     private PhotoType photoType;
 
     @Enumerated(STRING)
+    @NotNull
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
