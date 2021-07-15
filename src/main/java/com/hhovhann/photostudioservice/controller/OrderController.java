@@ -6,12 +6,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
-import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -63,7 +61,7 @@ public class OrderController {
 
     @PatchMapping("/v1/api/order/image/{order_id}")
     @ResponseStatus(NO_CONTENT)
-    @RolesAllowed("ROLE_OPERATOR")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_OPERATOR"})
     public void verify(@PathVariable("order_id") Long orderId) {
         orderService.verifyContent(orderId);
     }
