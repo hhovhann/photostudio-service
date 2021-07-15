@@ -3,6 +3,7 @@ package com.hhovhann.photostudioservice.validatiors;
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,8 +15,9 @@ public class DataValidator {
      * @param localDateTime - order creation local date time
      */
     public void validateBusinessHours(LocalDateTime localDateTime) {
-        if (!isTheTimeBetweenHours(localDateTime) && !isTheTimeBetweenMinutes(localDateTime))
-            throw new ValidationException("The date not within  the business hours (8:00-20:00)");
+        if (!isTheTimeBetweenHours(localDateTime)) {
+            throw new ValidationException("The date not within the business hours (8:00-20:00)");
+        }
     }
 
     /***
@@ -35,7 +37,7 @@ public class DataValidator {
      */
     public void validatePhotoContent(String imageURL) {
         // TODO Call third party resource with this photo identifier and verify the content accept if it's ok, otherwise exception
-        if(imageURL.isEmpty()){
+        if (imageURL.isEmpty()) {
             throw new ValidationException("The uploaded file identifier is empty");
         }
     }
@@ -58,13 +60,4 @@ public class DataValidator {
     private boolean isTheTimeBetweenHours(LocalDateTime localDateTime) {
         return localDateTime.getHour() >= 8 && localDateTime.getHour() < 20;
     }
-
-    /***
-     * Checks that the time minutes within the business hours (8:00-20:00)
-     * @param localDateTime - order creation local date time
-     */
-    private boolean isTheTimeBetweenMinutes(LocalDateTime localDateTime) {
-        return localDateTime.getMinute() >= 0 && localDateTime.getMinute() < 60;
-    }
-
 }
