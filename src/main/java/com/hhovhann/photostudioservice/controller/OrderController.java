@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Validated
 @Tag(name = "Order endpoints")
@@ -34,34 +35,34 @@ public class OrderController {
 
     @PatchMapping(value = "/v1/api/order/{order_id}")
     @RolesAllowed("ROLE_ADMIN")
-    @ResponseStatus(OK)
+    @ResponseStatus(NO_CONTENT)
     public void update(@PathVariable("order_id") Long orderId, @RequestBody LocalDateTime localDateTime) {
         orderService.update(orderId, localDateTime);
     }
 
-    @PostMapping("/v1/api/order/{order_id}/photographer/{photographer_id}")
-    @ResponseStatus(OK)
+    @PatchMapping("/v1/api/order/{order_id}/photographer/{photographer_id}")
+    @ResponseStatus(NO_CONTENT)
     @RolesAllowed("ROLE_ADMIN")
     public void assign(@PathVariable("order_id") Long orderId, @PathVariable("photographer_id") Long photographerId) {
         orderService.assign(orderId, photographerId);
     }
 
     @DeleteMapping("/v1/api/order/{order_id}")
-    @ResponseStatus(OK)
+    @ResponseStatus(NO_CONTENT)
     @RolesAllowed("ROLE_ADMIN")
     public void delete(@PathVariable("order_id") Long orderId) {
         orderService.cancel(orderId);
     }
 
-    @PostMapping("/v1/api/order/file/{order_id}")
-    @ResponseStatus(OK)
+    @PatchMapping("/v1/api/order/file/{order_id}")
+    @ResponseStatus(NO_CONTENT)
     @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
     public void upload(@PathVariable("order_id") Long orderId, @RequestParam("zip_file") MultipartFile zipFile) {
         orderService.uploadPhoto(orderId, zipFile);
     }
 
-    @PostMapping("/v1/api/order/image/{order_id}")
-    @ResponseStatus(OK)
+    @PatchMapping("/v1/api/order/image/{order_id}")
+    @ResponseStatus(NO_CONTENT)
     @RolesAllowed("ROLE_OPERATOR")
     public void verify(@PathVariable("order_id") Long orderId) {
         orderService.verifyContent(orderId);

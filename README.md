@@ -44,15 +44,14 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
    }
   
 *  Assign order to the photographer with user admin with role ADMIN
-   POST /v1/api/order/{order_id}/photographer/{photographer_id}
+   PATCH /v1/api/order/{order_id}/photographer/{photographer_id}
                
 *  Upload photo from photographerEntity with user admin or photographer with role ADMIN PHOTOGRAPHER
-   POST /v1/api/order/file/{order_id}
+   PATCH /v1/api/order/file/{order_id}
    BODY Request Param: Upload the zip file
           
 *  Verify photo content 
-   POST /v1/api/order/image/{order_id} with user operator with role OPERATOR
-   BODY "https://etimg.etb2bimg.com/photo/83034773.cms"
+   PATCH /v1/api/order/image/{order_id} with user operator with role OPERATOR
        
 *  Cancel the order with user admin with role ADMIN
    DELETE /v1/api/order/{order_id}/photographer/{photographer_id}
