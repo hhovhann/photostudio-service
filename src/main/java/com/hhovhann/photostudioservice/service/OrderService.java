@@ -2,17 +2,17 @@ package com.hhovhann.photostudioservice.service;
 
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface OrderService {
 
     /***
      * Create order with or without local date time
-     * @param orderRequestDTO - requested domain object to persist
+     * @param orderRequestDTOs - list of requested domain objects to persist
      * @return created order instance id
      */
-    Long create(OrderRequestDTO orderRequestDTO);
+    List<Long> create(List<OrderRequestDTO> orderRequestDTOs);
 
     /***
      * Modifies local date time for already created order
@@ -45,8 +45,7 @@ public interface OrderService {
 
     /***
      * Removes order from database if exists
-     * @param orderId -  order instance id
+     * @param orderIds -  list of order instance ids
      */
-    void cancel(Long orderId);
-
+    void cancel(List<Long>  orderIds);
 }

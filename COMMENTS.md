@@ -4,7 +4,6 @@
 -Test coverage
 -Test containers can be used for proper database
 -DB rider integration could be used for unit tests (controller, repository layer)
--Bulk create/delete for OrderEntity, as we have for PhotographerEntity
 -OpenAPI/Swagger more integration for API specification
 -Basic authentication only supported, could be changed with other type of authentications in the future.
 -Open for extensions with dockerization

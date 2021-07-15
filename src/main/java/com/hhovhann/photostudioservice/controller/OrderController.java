@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -24,45 +25,45 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/v1/api/order")
+    @PostMapping("/v1/api/orders")
     @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(CREATED)
-    public Long create(@Valid @RequestBody OrderRequestDTO orderRequestDTO) {
-        return orderService.create(orderRequestDTO);
+    public List<Long> create(@Valid @RequestBody List<OrderRequestDTO> orderRequestDTOs) {
+        return orderService.create(orderRequestDTOs);
     }
 
-    @PatchMapping(value = "/v1/api/order/{order_id}")
+    @PatchMapping(value = "/v1/api/orders/{order_id}")
     @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(NO_CONTENT)
     public void update(@PathVariable("order_id") Long orderId, @RequestBody LocalDateTime localDateTime) {
         orderService.update(orderId, localDateTime);
     }
 
-    @PatchMapping("/v1/api/order/{order_id}/photographer/{photographer_id}")
+    @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")
     @ResponseStatus(NO_CONTENT)
     @RolesAllowed("ROLE_ADMIN")
     public void assign(@PathVariable("order_id") Long orderId, @PathVariable("photographer_id") Long photographerId) {
         orderService.assign(orderId, photographerId);
     }
 
-    @DeleteMapping("/v1/api/order/{order_id}")
-    @ResponseStatus(NO_CONTENT)
-    @RolesAllowed("ROLE_ADMIN")
-    public void delete(@PathVariable("order_id") Long orderId) {
-        orderService.cancel(orderId);
-    }
-
-    @PatchMapping("/v1/api/order/file/{order_id}")
+    @PatchMapping("/v1/api/orders/file/{order_id}")
     @ResponseStatus(NO_CONTENT)
     @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
     public void upload(@PathVariable("order_id") Long orderId, @RequestParam("zip_file") MultipartFile zipFile) {
         orderService.uploadPhoto(orderId, zipFile);
     }
 
-    @PatchMapping("/v1/api/order/image/{order_id}")
+    @PatchMapping("/v1/api/orders/image/{order_id}")
     @ResponseStatus(NO_CONTENT)
     @RolesAllowed({"ROLE_ADMIN", "ROLE_OPERATOR"})
     public void verify(@PathVariable("order_id") Long orderId) {
         orderService.verifyContent(orderId);
+    }
+
+    @DeleteMapping("/v1/api/orders/{order_ids}")
+    @ResponseStatus(NO_CONTENT)
+    @RolesAllowed("ROLE_ADMIN")
+    public void delete(@PathVariable("order_ids") List<Long> orderIds) {
+        orderService.cancel(orderIds);
     }
 }

@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.hhovhann.photostudioservice.domain.data.OrderStatus.*;
 
@@ -35,17 +37,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Long create(OrderRequestDTO orderRequestDTO) {
-        OrderEntity orderEntity = orderMapper.toEntity(orderRequestDTO);
-        LocalDateTime localDateTime = orderRequestDTO.getLocalDateTime();
-        if (Objects.isNull(localDateTime)) {
-            orderEntity.setOrderStatus(UNSCHEDULED);
-        } else {
-            dataValidator.validateBusinessHours(localDateTime);
-            orderEntity.setOrderStatus(PENDING);
+    public List<Long> create(List<OrderRequestDTO> orderRequestDTOs) {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (OrderRequestDTO orderRequestDTO : orderRequestDTOs) {
+            OrderEntity orderEntity = orderMapper.toEntity(orderRequestDTO);
+            LocalDateTime localDateTime = orderRequestDTO.getLocalDateTime();
+            if (Objects.isNull(localDateTime)) {
+                orderEntity.setOrderStatus(UNSCHEDULED);
+            } else {
+                dataValidator.validateBusinessHours(localDateTime);
+                orderEntity.setOrderStatus(PENDING);
+            }
+            orderEntities.add(orderEntity);
         }
-        orderRepository.save(orderEntity);
-        return orderEntity.getId();
+        orderRepository.saveAll(orderEntities);
+        return orderEntities.stream().map(OrderEntity::getId).collect(Collectors.toList());
     }
 
     @Override
@@ -96,16 +102,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void cancel(Long orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
-        if (!orderEntity.getPhotographers().isEmpty()) {
-            // remove all related photographers, hopefully without ConcurrentModificationException :)
-            List<PhotographerEntity> photographers = orderEntity.getPhotographers();
-            for (Iterator<PhotographerEntity> iterator = photographers.iterator(); iterator.hasNext(); ) {
-                PhotographerEntity photographer = iterator.next();
-                orderEntity.removePhotographer(photographer);
+    public void cancel(List<Long> orderIds) {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (Long orderId : orderIds) {
+            OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+            if (!orderEntity.getPhotographers().isEmpty()) {
+                // remove all related photographers, hopefully without ConcurrentModificationException :)
+                List<PhotographerEntity> photographers = orderEntity.getPhotographers();
+                for (Iterator<PhotographerEntity> iterator = photographers.iterator(); iterator.hasNext(); ) {
+                    PhotographerEntity photographer = iterator.next();
+                    orderEntity.removePhotographer(photographer);
+                }
             }
+            orderEntities.add(orderEntity);
         }
-        orderRepository.delete(orderEntity);
+        orderRepository.deleteAll(orderEntities);
     }
 }

@@ -12,17 +12,28 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 - Order Endpoints
 ```
 * Create order withoutthe date and time with user admin with role ADMIN
-    POST /v1/api/order
+    POST /v1/api/orders
        
-    {
-      "name": "Hayk",
-      "surname": "Hovhannisyan",
-      "email": "haik.hovhanisyan@gmail.com",
-      "title": "title",
-      "logisticInfo": "logistic info",
-      "cell_number": "+39123456789",
-      "photo_type": "REAL_ESTATE"
-    }
+    [
+        {
+          "name": "Hayk1",
+          "surname": "Hovhannisyan1",
+          "email": "haik.hovhanisyan1@gmail.com",
+          "title": "title1",
+          "logisticInfo": "logistic info1",
+          "cell_number": "+39123456789",
+          "photo_type": "REAL_ESTATE"
+        },
+        {
+          "name": "Hayk2",
+          "surname": "Hovhannisyan2",
+          "email": "haik.hovhanisyan2@gmail.com",
+          "title": "title2",
+          "logisticInfo": "logistic info 2",
+          "cell_number": "+39987654321",
+          "photo_type": "EVENTS"
+        }
+    ]
     
 * Create order with the date and time with user admin with role ADMIN
     {
@@ -37,24 +48,25 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
     }
        
 * Update order with the date and time with user admin with role ADMIN
-   PATCH /v1/api/order/{order_id}
+   PATCH /v1/api/orders/{order_id}
 
    { 
        date_and_time: "dd-MM-yyyy HH:mm:ss"
    }
   
 *  Assign order to the photographer with user admin with role ADMIN
-   PATCH /v1/api/order/{order_id}/photographer/{photographer_id}
+   PATCH /v1/api/orders/{order_id}/photographers/{photographer_id}
                
 *  Upload photo from photographerEntity with user admin or photographer with roles ADMIN and PHOTOGRAPHER
-   PATCH /v1/api/order/file/{order_id}
+   PATCH /v1/api/orders/file/{order_id}
    BODY Request Param: Upload the zip file
           
 *  Verify photo content 
-   PATCH /v1/api/order/image/{order_id} with user operator with roles ADMIN and OPERATOR
+   PATCH /v1/api/orders/image/{order_id} with user operator with roles ADMIN and OPERATOR
        
 *  Cancel the order with user admin with role ADMIN
-   DELETE /v1/api/order/{order_id}/photographer/{photographer_id}
+   DELETE /v1/api/orders/{order_ids}
+   DELETE /v1/api/orders/1,2,3,4,5
 ```   
 
 - Photographer Endpoints
@@ -72,11 +84,15 @@ System designed as a Spring Boot Web Application. Provides Rest API with followi
 ```
 
 ## Security Support
-There is support for basic authentication now with inmemory `role: ADMIN username:password admin:admin`, `role: OPERATOR username:password operator:operator`, `role: PHOTOGRAPHER username:password photographer:photographer`
+There is support for basic authentication now with inmemory
+
+- `role: ADMIN username:password admin:admin`
+- `role: OPERATOR username:password operator:operator`
+- `role: PHOTOGRAPHER username:password photographer:photographer`
 
 ## Software Run
-Can run application with bach command from project root `./scripts/run.sh`
-Can run the application from the IDEA itself
+- Run application with bach command from project root `./scripts/run.sh`
+- Run the application from the IDEA itself
 
 ## Software Design and Diagram
 Please check the [Photostudio Diagramm](design/photostudio.png)

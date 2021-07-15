@@ -22,7 +22,7 @@ public class PhotographerController {
         this.photographerService = photographerService;
 
     }
-    @PostMapping("/v1/api/photographer")
+    @PostMapping("/v1/api/photographers")
     @ResponseStatus(CREATED)
     @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
     public void create(@Valid @RequestBody List<PhotographerRequestDTO> photographerRequestDTOs) {
