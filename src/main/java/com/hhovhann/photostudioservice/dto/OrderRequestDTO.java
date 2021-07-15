@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class OrderRequestDTO {
@@ -20,7 +21,7 @@ public class OrderRequestDTO {
     @NotBlank(message = "Cell number may not be null")
     @JsonProperty("cell_number")
     private String cellNumber;
-    @NotBlank(message = "Photo Type may not be null")
+    @NotNull(message = "Photo Type may not be null")
     @Enumerated(EnumType.STRING)
     @JsonProperty("photo_type")
     private PhotoType photoType;
