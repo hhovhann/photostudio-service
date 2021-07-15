@@ -6,21 +6,21 @@ import com.hhovhann.photostudioservice.domain.data.PhotoType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class OrderRequestDTO {
-    @NotNull(message = "Name may not be null")
+    @NotBlank(message = "Name may not be null")
     private String name;
-    @NotNull(message = "Surname may not be null")
+    @NotBlank(message = "Surname may not be null")
     private String surname;
     @Email
-    @NotNull(message = "Email may not be null")
+    @NotBlank(message = "Email may not be null")
     private String email;
-    @NotNull(message = "Cell number may not be null")
+    @NotBlank(message = "Cell number may not be null")
     @JsonProperty("cell_number")
     private String cellNumber;
-    @NotNull(message = "Photo Type may not be null")
+    @NotBlank(message = "Photo Type may not be null")
     @Enumerated(EnumType.STRING)
     @JsonProperty("photo_type")
     private PhotoType photoType;
