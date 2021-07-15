@@ -1,13 +1,14 @@
 package com.hhovhann.photostudioservice.domain.data;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Email;
 
 @Embeddable
 public class ContactData {
     private String name;
 
     private String surname;
-
+    @Email
     private String email;
 
     private String cellNumber;

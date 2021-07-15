@@ -5,6 +5,7 @@ import com.hhovhann.photostudioservice.domain.data.PhotoType;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ public class OrderRequestDTO {
     private String name;
     @NotNull(message = "Surname may not be null")
     private String surname;
+    @Email
     @NotNull(message = "Email may not be null")
     private String email;
     @NotNull(message = "Cell number may not be null")
