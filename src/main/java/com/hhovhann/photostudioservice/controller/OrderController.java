@@ -1,6 +1,7 @@
 package com.hhovhann.photostudioservice.controller;
 
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import com.hhovhann.photostudioservice.service.OrderService;
 import com.hhovhann.photostudioservice.service.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 public class OrderController {
 
-    private final OrderServiceImpl orderService;
+    private final OrderService orderService;
 
     public OrderController(OrderServiceImpl orderService) {
         this.orderService = orderService;
