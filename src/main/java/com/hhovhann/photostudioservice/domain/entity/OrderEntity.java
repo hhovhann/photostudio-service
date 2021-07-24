@@ -35,7 +35,7 @@ public class OrderEntity implements Serializable {
     @NotNull
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orderEntity", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<PhotographerEntity> photographerEntities = new ArrayList<>();
 

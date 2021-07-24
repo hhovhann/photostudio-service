@@ -3,18 +3,16 @@ package com.hhovhann.photostudioservice.service;
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import com.hhovhann.photostudioservice.exception.OrderNotFoundException;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
 import com.hhovhann.photostudioservice.validatiors.DataValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void update(Long orderId, LocalDateTime localDateTime) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateBusinessHours(localDateTime);
         orderEntity.setCreationDateTime(localDateTime);
         orderEntity.setOrderStatus(PENDING);
@@ -68,9 +66,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void assign(Long orderId, Long photographerId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), PENDING);
-        PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new OrderNotFoundException("No photographer found with specified Id"));
         orderEntity.addPhotographer(photographerEntity);
         orderEntity.setOrderStatus(ASSIGNED);
         orderRepository.save(orderEntity);
@@ -79,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void uploadPhoto(Long orderId, MultipartFile zipFIle) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
         dataValidator.validateFile(zipFIle);
         // TODO upload file to photo storage, take URL and store in database the image URL, now I just filename and store it in the database
@@ -91,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void verifyContent(Long orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
         // now change the status to COMPLETED, in future logic should be added where real content verification will happen
         dataValidator.validatePhotoContent(orderEntity.getImageURL());
@@ -105,15 +103,7 @@ public class OrderServiceImpl implements OrderService {
     public void cancel(List<Long> orderIds) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (Long orderId : orderIds) {
-            OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("No order found with specified Id"));
-            if (!orderEntity.getPhotographers().isEmpty()) {
-                // remove all related photographers, hopefully without ConcurrentModificationException :)
-                List<PhotographerEntity> photographers = orderEntity.getPhotographers();
-                for (Iterator<PhotographerEntity> iterator = photographers.iterator(); iterator.hasNext(); ) {
-                    PhotographerEntity photographer = iterator.next();
-                    orderEntity.removePhotographer(photographer);
-                }
-            }
+            OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
             orderEntities.add(orderEntity);
         }
         orderRepository.deleteAll(orderEntities);

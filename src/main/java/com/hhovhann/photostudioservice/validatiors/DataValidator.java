@@ -1,10 +1,9 @@
 package com.hhovhann.photostudioservice.validatiors;
 
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
+import com.hhovhann.photostudioservice.exception.PhotoStudioValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -16,7 +15,7 @@ public class DataValidator {
      */
     public void validateBusinessHours(LocalDateTime localDateTime) {
         if (!isTheTimeBetweenHours(localDateTime)) {
-            throw new ValidationException("The date not within the business hours (8:00-20:00)");
+            throw new PhotoStudioValidationException("The date not within the business hours (8:00-20:00)");
         }
     }
 
@@ -27,7 +26,7 @@ public class DataValidator {
     public void validateFile(MultipartFile file) {
         boolean endsWith = file.getOriginalFilename().endsWith("zip");
         if (!endsWith) {
-            throw new ValidationException("The uploaded file should be zipped");
+            throw new PhotoStudioValidationException("The uploaded file should be zipped");
         }
     }
 
@@ -38,7 +37,7 @@ public class DataValidator {
     public void validatePhotoContent(String imageURL) {
         // TODO Call third party resource with this photo identifier and verify the content accept if it's ok, otherwise exception
         if (imageURL.isEmpty()) {
-            throw new ValidationException("The uploaded file identifier is empty");
+            throw new PhotoStudioValidationException("The uploaded file identifier is empty");
         }
     }
 
@@ -49,7 +48,7 @@ public class DataValidator {
      */
     public void validateOrderStatuses(OrderStatus sourceStatus, OrderStatus targetStatus) {
         if (!Objects.equals(sourceStatus, targetStatus)) {
-            throw new ValidationException("The current order status is different then target order status");
+            throw new PhotoStudioValidationException("The current order status is different then target order status");
         }
     }
 

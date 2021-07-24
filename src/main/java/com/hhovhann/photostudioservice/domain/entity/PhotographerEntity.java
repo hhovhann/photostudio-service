@@ -53,6 +53,14 @@ public class PhotographerEntity implements Serializable {
         this.orderEntity = orderEntity;
     }
 
+    public OrderEntity getOrderEntity() {
+        return orderEntity;
+    }
+
+    public void setOrderEntity(OrderEntity orderEntity) {
+        this.orderEntity = orderEntity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

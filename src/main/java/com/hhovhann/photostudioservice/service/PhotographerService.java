@@ -9,6 +9,7 @@ public interface PhotographerService {
      * Creates a list of photographers
      * @param photographerRequestDTOs - photographers data transfer object
      */
-    void create(List<PhotographerRequestDTO> photographerRequestDTOs);
+    List<Long>  create(List<PhotographerRequestDTO> photographerRequestDTOs);
 
+    void cancel(List<Long> photographerIds);
 }
