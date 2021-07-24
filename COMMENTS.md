@@ -2,14 +2,11 @@
 
 # Nice to have in future versions
 -Test coverage
--Test containers can be used for proper database
--DB rider integration could be used for unit tests (controller, repository layer)
 -OpenAPI/Swagger more integration for API specification
 -Basic authentication only supported, could be changed with other type of authentications in the future.
 -Open for extensions with dockerization
 -Can use mappers lib(model mapper) for toDto and toEntity functionalities
 -Can be used lombok to provide builders getter setters etc, but decided not used that now
--Can have email and cell number validation
 
 # Questions/Concerns/Decisions
 

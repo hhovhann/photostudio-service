@@ -11,7 +11,7 @@ import com.hhovhann.photostudioservice.validatiors.DataValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderRequestDTO orderRequestDTO : orderRequestDTOs) {
             OrderEntity orderEntity = orderMapper.toEntity(orderRequestDTO);
-            LocalDateTime localDateTime = orderRequestDTO.getLocalDateTime();
+            ZonedDateTime localDateTime = orderRequestDTO.getLocalDateTime();
             if (Objects.isNull(localDateTime)) {
                 orderEntity.setOrderStatus(UNSCHEDULED);
             } else {
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void update(Long orderId, LocalDateTime localDateTime) {
+    public void update(Long orderId, ZonedDateTime localDateTime) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateBusinessHours(localDateTime);
         orderEntity.setCreationDateTime(localDateTime);
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
         dataValidator.validateFile(zipFIle);
         // TODO upload file to photo storage, take URL and store in database the image URL, now I just filename and store it in the database
-        orderEntity.setImageURL(zipFIle.getResource().getFilename());
+        orderEntity.setImageUrl(zipFIle.getResource().getFilename());
         orderEntity.setOrderStatus(UPLOADED);
         orderRepository.save(orderEntity);
     }
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
         // now change the status to COMPLETED, in future logic should be added where real content verification will happen
-        dataValidator.validatePhotoContent(orderEntity.getImageURL());
+        dataValidator.validatePhotoContent(orderEntity.getImageUrl());
         orderEntity.setOrderStatus(COMPLETED);
         orderRepository.save(orderEntity);
     }

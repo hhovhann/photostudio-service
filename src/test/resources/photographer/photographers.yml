@@ -1,0 +1,19 @@
+photographer_entity:
+  - id: 1
+    name: "First Photographer Name"
+    surname: "First Photographer Surname"
+    email: "first_Photographer@gmail.com"
+    cell_number: "1231241312"
+    order_id: null
+  - id: 2
+    name: "Second Photographer Name"
+    surname: "Second Photographer Surname"
+    email: "second_photographer@gmail.com"
+    cell_number: "1231241312"
+    order_id: null
+  - id: 3
+    name: "Third Photographer Name"
+    surname: "Third Photographer Surname"
+    email: "third_photographer@gmail.com"
+    cell_number: "1231241312"
+    order_id: null

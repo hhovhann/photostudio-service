@@ -98,9 +98,5 @@ There is support for basic authentication now with inmemory
 Please check the [Photostudio Diagramm](design/photostudio.png)
 
 # Nice To have
-- Versioning support for rest api
-- Create and Delete Order can support bulk creation
-- Test coverage
-- DB rider integration for tests
-- OpenAPI/Swagger integration for API specification
+- High test coverage
 - Current software support basic authentication, which can be extended in the future versions.

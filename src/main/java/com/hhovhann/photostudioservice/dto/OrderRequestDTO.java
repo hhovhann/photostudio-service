@@ -8,7 +8,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class OrderRequestDTO {
     @NotBlank(message = "Name may not be null")
@@ -30,7 +30,7 @@ public class OrderRequestDTO {
 
     private String logisticInfo;
 
-    private LocalDateTime localDateTime;
+    private ZonedDateTime localDateTime;
 
     public String getName() {
         return name;
@@ -72,11 +72,11 @@ public class OrderRequestDTO {
         this.photoType = photoType;
     }
 
-    public LocalDateTime getLocalDateTime() {
+    public ZonedDateTime getLocalDateTime() {
         return localDateTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
+    public void setLocalDateTime(ZonedDateTime localDateTime) {
         this.localDateTime = localDateTime;
     }
 

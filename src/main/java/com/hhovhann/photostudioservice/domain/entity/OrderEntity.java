@@ -7,7 +7,7 @@ import com.hhovhann.photostudioservice.domain.data.PhotoType;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +43,9 @@ public class OrderEntity implements Serializable {
 
     private String logisticInfo;
 
-    private LocalDateTime creationDateTime;
+    private ZonedDateTime creationDateTime;
 
-    private String imageURL;
+    private String imageUrl;
 
     public OrderEntity() {
     }
@@ -106,20 +106,20 @@ public class OrderEntity implements Serializable {
         this.logisticInfo = logisticInfo;
     }
 
-    public LocalDateTime getCreationDateTime() {
+    public ZonedDateTime getCreationDateTime() {
         return creationDateTime;
     }
 
-    public void setCreationDateTime(LocalDateTime localDateTime) {
+    public void setCreationDateTime(ZonedDateTime localDateTime) {
         this.creationDateTime = localDateTime;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImageUrl(String imageURL) {
+        this.imageUrl = imageURL;
     }
 
     public void addPhotographer(PhotographerEntity photographerEntity) {

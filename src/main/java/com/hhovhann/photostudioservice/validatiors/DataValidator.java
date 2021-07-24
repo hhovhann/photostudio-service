@@ -4,7 +4,7 @@ import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.exception.PhotoStudioValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Component
@@ -13,7 +13,7 @@ public class DataValidator {
      * Checks business hours matching
      * @param localDateTime - order creation local date time
      */
-    public void validateBusinessHours(LocalDateTime localDateTime) {
+    public void validateBusinessHours(ZonedDateTime localDateTime) {
         if (!isTheTimeBetweenHours(localDateTime)) {
             throw new PhotoStudioValidationException("The date not within the business hours (8:00-20:00)");
         }
@@ -56,7 +56,7 @@ public class DataValidator {
      * Checks that the time hours within the business hours (8:00-20:00)
      * @param localDateTime - order creation local date time
      */
-    private boolean isTheTimeBetweenHours(LocalDateTime localDateTime) {
+    private boolean isTheTimeBetweenHours(ZonedDateTime localDateTime) {
         return localDateTime.getHour() >= 8 && localDateTime.getHour() < 20;
     }
 }

@@ -2,7 +2,7 @@ package com.hhovhann.photostudioservice.service;
 
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import org.springframework.web.multipart.MultipartFile;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface OrderService {
@@ -19,7 +19,7 @@ public interface OrderService {
      * @param orderId - order instance id
      * @param localDateTime - local date time working hours 08.00 - 24.00
      */
-    void update(Long orderId, LocalDateTime localDateTime);
+    void update(Long orderId, ZonedDateTime localDateTime);
 
 
     /***

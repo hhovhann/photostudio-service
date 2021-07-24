@@ -1,0 +1,36 @@
+order_entity:
+  - id: 1
+    name: "First Order Name"
+    surname: "First Order Surname"
+    email: "first_order@gmail.com"
+    cell_number: "1231241312"
+    photo_type: "REAL_ESTATE"
+    order_status: "PENDING"
+    title: "REAL_ESTATE title"
+    logistic_info: "REAL_ESTATE logistic info"
+    creation_date_time: "2021-07-13 19:02:16.990"
+    image_url: "some_url_here"
+  - id: 2
+    name: "Second Order Name"
+    surname: "Second Order Surname"
+    email: "second_order@gmail.com"
+    cell_number: "1231241312"
+    photo_type: "EVENTS"
+    order_status: "PENDING"
+    title: "EVENTS title"
+    logistic_info: "EVENTS logistic info"
+    creation_date_time: "2021-07-13 18:02:16.990"
+    image_url: "some_url_here"
+photographer_entity:
+  - id: 1
+    name: "First Photographer Name"
+    surname: "First Photographer Surname"
+    email: "first_Photographer@gmail.com"
+    cell_number: "1231241312"
+    order_id: 1
+  - id: 2
+    name: "Second Photographer Name"
+    surname: "Second Photographer Surname"
+    email: "second_photographer@gmail.com"
+    cell_number: "1231241312"
+    order_id: 1

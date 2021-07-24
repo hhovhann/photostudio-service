@@ -1,0 +1,18 @@
+cacheConnection: true
+cacheTableNames: true
+leakHunter: false
+caseInsensitiveStrategy: !!com.github.database.rider.core.api.configuration.Orthography 'LOWERCASE'
+properties:
+  schema: PUBLIC
+  caseSensitiveTableNames: true
+  batchedStatements:  false
+  qualifiedTableNames: false
+  batchSize: 100
+  fetchSize: 100
+  allowEmptyFields: false
+  escapePattern: "?"
+connectionConfig:
+  driver: ""
+  url: ""
+  user: ""
+  password: ""

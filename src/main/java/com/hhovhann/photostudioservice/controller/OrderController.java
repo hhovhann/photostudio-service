@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -36,7 +36,7 @@ public class OrderController {
     @PatchMapping(value = "/v1/api/orders/{order_id}")
     @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(NO_CONTENT)
-    public void update(@PathVariable("order_id") Long orderId, @RequestBody LocalDateTime localDateTime) {
+    public void update(@PathVariable("order_id") Long orderId, @RequestBody ZonedDateTime localDateTime) {
         orderService.update(orderId, localDateTime);
     }
 

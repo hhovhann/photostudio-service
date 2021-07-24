@@ -1,0 +1,11 @@
+order_entity:
+  - id: 1
+    name: "First Order Name"
+    surname: "First Order Surname"
+    email: "first_order@gmail.com"
+    cell_number: "1231241312"
+    photo_type: "REAL_ESTATE"
+    order_status: "UNSCHEDULED"
+    title: "REAL_ESTATE title"
+    logistic_info: "REAL_ESTATE logistic info"
+    image_url: "some_url_here"
