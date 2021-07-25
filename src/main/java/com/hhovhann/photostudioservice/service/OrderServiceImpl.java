@@ -66,36 +66,37 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void assign(Long orderId, Long photographerId) {
+    public OrderResponseDTO assign(Long orderId, Long photographerId) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), PENDING);
         PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new OrderNotFoundException("No photographer found with specified Id"));
         orderEntity.addPhotographer(photographerEntity);
         orderEntity.setOrderStatus(ASSIGNED);
-        orderRepository.save(orderEntity);
+        return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 
     @Override
     @Transactional
-    public void uploadPhoto(Long orderId, MultipartFile zipFIle) {
+    public OrderResponseDTO uploadPhoto(Long orderId, MultipartFile zipFIle) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), ASSIGNED);
         dataValidator.validateFile(zipFIle);
         // TODO upload file to photo storage, take URL and store in database the image URL, now I just filename and store it in the database
         orderEntity.setImageUrl(zipFIle.getResource().getFilename());
         orderEntity.setOrderStatus(UPLOADED);
-        orderRepository.save(orderEntity);
+        return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 
     @Override
     @Transactional
-    public void verifyContent(Long orderId) {
+    public OrderResponseDTO verifyContent(Long orderId) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateOrderStatuses(orderEntity.getOrderStatus(), UPLOADED);
         // now change the status to COMPLETED, in future logic should be added where real content verification will happen
         dataValidator.validatePhotoContent(orderEntity.getImageUrl());
         orderEntity.setOrderStatus(COMPLETED);
         orderRepository.save(orderEntity);
+        return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 
 

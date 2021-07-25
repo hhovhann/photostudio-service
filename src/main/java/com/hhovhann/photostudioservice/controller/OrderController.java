@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -31,22 +32,22 @@ public class OrderController {
     @PostMapping("/v1/api/orders")
     @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(CREATED)
-    public List<Long> create(@Valid @RequestBody List<OrderRequestDTO> orderRequestDTOs) {
-        return orderService.create(orderRequestDTOs);
+    public ResponseEntity<List<Long>> create(@Valid @RequestBody List<OrderRequestDTO> orderRequestDTOs) {
+        return ResponseEntity.ok(orderService.create(orderRequestDTOs));
     }
 
     @PatchMapping(value = "/v1/api/orders/{order_id}")
     @RolesAllowed("ROLE_ADMIN")
-    @ResponseStatus(NO_CONTENT)
+    @ResponseStatus(OK)
     public ResponseEntity<OrderResponseDTO> update(@PathVariable("order_id") Long orderId, @RequestBody ZonedDateTime localDateTime) {
         return ResponseEntity.ok(orderService.update(orderId, localDateTime));
     }
 
     @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")
-    @ResponseStatus(NO_CONTENT)
+    @ResponseStatus(OK)
     @RolesAllowed("ROLE_ADMIN")
-    public void assign(@PathVariable("order_id") Long orderId, @PathVariable("photographer_id") Long photographerId) {
-        orderService.assign(orderId, photographerId);
+    public ResponseEntity<OrderResponseDTO> assign(@PathVariable("order_id") Long orderId, @PathVariable("photographer_id") Long photographerId) {
+        return ResponseEntity.ok(orderService.assign(orderId, photographerId));
     }
 
     @PatchMapping("/v1/api/orders/file/{order_id}")

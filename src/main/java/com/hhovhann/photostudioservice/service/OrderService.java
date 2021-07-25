@@ -29,8 +29,9 @@ public interface OrderService {
      * Assigns order to the photographer
      * @param orderId -  order instance id
      * @param photographerId -  photographer instance id
+     * @return orderResponseDTO - order response dto instance
      */
-    void assign(Long orderId, Long photographerId);
+    OrderResponseDTO assign(Long orderId, Long photographerId);
 
 
     /***
@@ -38,13 +39,13 @@ public interface OrderService {
      * @param orderId - order instance id
      * @param zipFIle - zip of photos to upload to the system
      */
-    void uploadPhoto(Long orderId, MultipartFile zipFIle);
+    OrderResponseDTO uploadPhoto(Long orderId, MultipartFile zipFIle);
 
     /***
      * Verifies the content of the zip files
      * @param orderId - order instance id
       */
-    void verifyContent(Long orderId);
+    OrderResponseDTO verifyContent(Long orderId);
 
     /***
      * Removes order from database if exists

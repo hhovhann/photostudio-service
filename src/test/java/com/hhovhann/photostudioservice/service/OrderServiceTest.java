@@ -40,7 +40,6 @@ class OrderServiceTest {
         // given
         OrderRequestDTO orderRequestDTO = OrderStub.createOrderRequestDto(1, REAL_ESTATE, ZONED_DATE_TIME);
         OrderEntity orderEntity = OrderStub.createOrderEntity(1, REAL_ESTATE, PENDING);
-        orderEntity.setId(null);
         List<OrderEntity> orderEntities = Collections.singletonList(orderEntity);
         when(orderMapper.toEntity(orderRequestDTO)).thenReturn(orderEntity);
         when(orderRepository.saveAll(orderEntities)).thenReturn(orderEntities);
@@ -57,7 +56,6 @@ class OrderServiceTest {
         // given
         OrderRequestDTO orderRequestDTO = OrderStub.createOrderRequestDto(1, EVENTS, ZONED_DATE_TIME);
         OrderEntity orderEntity = OrderStub.createOrderEntity(1, EVENTS, UNSCHEDULED);
-        orderEntity.setId(null);
         List<OrderEntity> orderEntities = Collections.singletonList(orderEntity);
         when(orderMapper.toEntity(orderRequestDTO)).thenReturn(orderEntity);
         when(orderRepository.saveAll(orderEntities)).thenReturn(orderEntities);
@@ -87,6 +85,10 @@ class OrderServiceTest {
     @Test
     @DisplayName("Should assign Order to the photographer")
     void shouldSuccessfullyAssignOrderToPhotographer() {
+        OrderEntity orderEntity = OrderStub.createOrderEntityWithoutDateTime(1, EVENTS);
+        OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, PENDING, ZONED_DATE_TIME);
+
+        orderService.assign(1L, 1L);
     }
 
     @Test

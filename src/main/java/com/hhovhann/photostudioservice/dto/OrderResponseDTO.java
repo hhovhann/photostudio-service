@@ -2,8 +2,11 @@ package com.hhovhann.photostudioservice.dto;
 
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.domain.data.PhotoType;
+import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderResponseDTO {
     private Long id;
@@ -16,6 +19,7 @@ public class OrderResponseDTO {
     private String title;
     private String logisticInfo;
     private ZonedDateTime creationDateTime;
+    private List<PhotographerEntity> photographerEntities = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -95,5 +99,13 @@ public class OrderResponseDTO {
 
     public void setLogisticInfo(String logisticInfo) {
         this.logisticInfo = logisticInfo;
+    }
+
+    public List<PhotographerEntity> getPhotographerEntities() {
+        return photographerEntities;
+    }
+
+    public void setPhotographerEntities(List<PhotographerEntity> photographerEntities) {
+        this.photographerEntities = photographerEntities;
     }
 }

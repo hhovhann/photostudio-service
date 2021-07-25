@@ -31,7 +31,6 @@ public class OrderMapper {
 
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setName(contactData.getName());
-        orderResponseDTO.setName(contactData.getName());
         orderResponseDTO.setSurname(contactData.getSurname());
         orderResponseDTO.setCellNumber(contactData.getCellNumber());
         orderResponseDTO.setEmail(contactData.getEmail());
@@ -42,7 +41,7 @@ public class OrderMapper {
         orderResponseDTO.setTitle(updatedEntity.getTitle());
         orderResponseDTO.setLogisticInfo(updatedEntity.getLogisticInfo());
         orderResponseDTO.setCreationDateTime(updatedEntity.getCreationDateTime());
-
+        orderResponseDTO.setPhotographerEntities(updatedEntity.getPhotographers());
         return orderResponseDTO;
     }
 }

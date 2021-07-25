@@ -1,20 +1,18 @@
 package com.hhovhann.photostudioservice.controller;
 
+import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import com.hhovhann.photostudioservice.dto.PhotographerRequestDTO;
+import com.hhovhann.photostudioservice.dto.PhotographerResponseDTO;
 import com.hhovhann.photostudioservice.service.PhotographerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @Tag(name = "Photographer endpoints")
@@ -29,8 +27,15 @@ public class PhotographerController {
     @PostMapping("/v1/api/photographers")
     @ResponseStatus(CREATED)
     @RolesAllowed({"ROLE_ADMIN", "ROLE_PHOTOGRAPHER"})
-    public List<Long> create(@Valid @RequestBody List<PhotographerRequestDTO> photographerRequestDTOs) {
-        return photographerService.create(photographerRequestDTOs);
+    public ResponseEntity<List<Long>> create(@Valid @RequestBody List<PhotographerRequestDTO> photographerRequestDTOs) {
+        return ResponseEntity.ok(photographerService.create(photographerRequestDTOs));
+    }
+
+    @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")
+    @ResponseStatus(OK)
+    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<PhotographerResponseDTO> update(@PathVariable("photographer_id") Long photographer_id, PhotographerRequestDTO photographerRequestDTO) {
+        return ResponseEntity.ok(photographerService.update(photographer_id, photographerRequestDTO));
     }
 
     @DeleteMapping("/v1/api/photographers/{photographer_ids}")
