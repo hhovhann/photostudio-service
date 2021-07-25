@@ -3,6 +3,7 @@ package com.hhovhann.photostudioservice.mapper;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,5 +24,25 @@ public class OrderMapper {
         orderEntity.setLogisticInfo(orderRequestDTO.getLogisticInfo());
         orderEntity.setCreationDateTime(orderRequestDTO.getLocalDateTime());
         return orderEntity;
+    }
+
+    public OrderResponseDTO toDTO(OrderEntity updatedEntity) {
+        ContactData contactData = updatedEntity.getContactData();
+
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponseDTO.setName(contactData.getName());
+        orderResponseDTO.setName(contactData.getName());
+        orderResponseDTO.setSurname(contactData.getSurname());
+        orderResponseDTO.setCellNumber(contactData.getCellNumber());
+        orderResponseDTO.setEmail(contactData.getEmail());
+
+        orderResponseDTO.setId(updatedEntity.getId());
+        orderResponseDTO.setPhotoType(updatedEntity.getPhotoType());
+        orderResponseDTO.setOrderStatus(updatedEntity.getOrderStatus());
+        orderResponseDTO.setTitle(updatedEntity.getTitle());
+        orderResponseDTO.setLogisticInfo(updatedEntity.getLogisticInfo());
+        orderResponseDTO.setCreationDateTime(updatedEntity.getCreationDateTime());
+
+        return orderResponseDTO;
     }
 }

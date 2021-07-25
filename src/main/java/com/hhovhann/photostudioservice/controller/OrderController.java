@@ -1,9 +1,11 @@
 package com.hhovhann.photostudioservice.controller;
 
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import com.hhovhann.photostudioservice.service.OrderService;
 import com.hhovhann.photostudioservice.service.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,8 +38,8 @@ public class OrderController {
     @PatchMapping(value = "/v1/api/orders/{order_id}")
     @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(NO_CONTENT)
-    public void update(@PathVariable("order_id") Long orderId, @RequestBody ZonedDateTime localDateTime) {
-        orderService.update(orderId, localDateTime);
+    public ResponseEntity<OrderResponseDTO> update(@PathVariable("order_id") Long orderId, @RequestBody ZonedDateTime localDateTime) {
+        return ResponseEntity.ok(orderService.update(orderId, localDateTime));
     }
 
     @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")

@@ -3,6 +3,7 @@ package com.hhovhann.photostudioservice.service;
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
 import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
+import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import com.hhovhann.photostudioservice.exception.OrderNotFoundException;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
@@ -54,12 +55,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void update(Long orderId, ZonedDateTime localDateTime) {
+    public OrderResponseDTO update(Long orderId, ZonedDateTime localDateTime) {
         OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         dataValidator.validateBusinessHours(localDateTime);
         orderEntity.setCreationDateTime(localDateTime);
         orderEntity.setOrderStatus(PENDING);
-        orderRepository.save(orderEntity);
+        return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 
 
