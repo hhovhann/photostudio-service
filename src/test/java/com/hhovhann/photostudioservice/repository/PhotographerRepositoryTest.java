@@ -5,24 +5,24 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DBRider
-@RunWith(SpringRunner.class)
 @SpringBootTest
 class PhotographerRepositoryTest {
 
     @Autowired
     private PhotographerRepository photographerRepository;
+
     @Test
     @DataSet(cleanBefore = true, transactional = true)
     @ExpectedDataSet("photographer/photographer.yml")
+    @DisplayName("Should properly create the photographer")
     public void shouldCreatePhotographer() {
         assertThat(photographerRepository).isNotNull();
         assertThat(photographerRepository.count()).isEqualTo(0);
@@ -41,6 +41,7 @@ class PhotographerRepositoryTest {
 
     @Test
     @DataSet(value = {"photographer/photographers.yml"}, cleanBefore = true)
+    @DisplayName("Should properly delete the photographer created initially")
     public void shouldDeletePhotographer() {
         assertThat(photographerRepository).isNotNull();
         assertThat(photographerRepository.count()).isEqualTo(3);

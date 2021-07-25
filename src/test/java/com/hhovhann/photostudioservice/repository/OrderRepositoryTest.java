@@ -5,18 +5,16 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.entity.OrderEntity;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.hhovhann.photostudioservice.domain.data.OrderStatus.UNSCHEDULED;
 import static com.hhovhann.photostudioservice.domain.data.PhotoType.REAL_ESTATE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DBRider
-@RunWith(SpringRunner.class)
 @SpringBootTest
 class OrderRepositoryTest {
 
@@ -26,6 +24,7 @@ class OrderRepositoryTest {
     @Test
     @DataSet(cleanBefore = true, transactional = true)
     @ExpectedDataSet("order/order.yml")
+    @DisplayName("Should properly create the order")
     public void shouldCreateOrder() {
         assertThat(orderRepository).isNotNull();
         assertThat(orderRepository.count()).isEqualTo(0);
@@ -51,6 +50,7 @@ class OrderRepositoryTest {
 
     @Test
     @DataSet(value = {"order/orders.yml"}, cleanBefore = true)
+    @DisplayName("Should properly delete the order created initially")
     public void shouldDeleteOrder() {
         assertThat(orderRepository).isNotNull();
         assertThat(orderRepository.count()).isEqualTo(2);
