@@ -31,7 +31,7 @@ public class PhotographerController {
         return ResponseEntity.ok(photographerService.create(photographerRequestDTOs));
     }
 
-    @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")
+    @PatchMapping("/v1/api//photographers/{photographer_id}")
     @ResponseStatus(OK)
     @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<PhotographerResponseDTO> update(@PathVariable("photographer_id") Long photographer_id, PhotographerRequestDTO photographerRequestDTO) {

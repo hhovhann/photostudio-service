@@ -1,11 +1,10 @@
 package com.hhovhann.photostudioservice.stub;
 
 import com.hhovhann.photostudioservice.domain.data.ContactData;
-import com.hhovhann.photostudioservice.domain.data.PhotoType;
 
 public class ContactDataStub {
 
-    public static ContactData createOrderRequestDto(long sequence, PhotoType photoType) {
+    public static ContactData createOrderRequestDto(long sequence) {
         ContactData contactData = new ContactData();
         contactData.setName("Order name " + sequence);
         contactData.setSurname("Order surname");

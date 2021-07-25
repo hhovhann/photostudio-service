@@ -15,7 +15,7 @@ public class OrderStub {
         orderEntity.setId(id);
         orderEntity.setPhotoType(photoType);
         orderEntity.setOrderStatus(orderStatus);
-        orderEntity.setContactData(ContactDataStub.createOrderRequestDto(id, photoType));
+        orderEntity.setContactData(ContactDataStub.createOrderRequestDto(id));
 
         return orderEntity;
     }
