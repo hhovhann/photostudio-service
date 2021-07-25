@@ -5,6 +5,7 @@ import com.hhovhann.photostudioservice.domain.entity.PhotographerEntity;
 import com.hhovhann.photostudioservice.dto.OrderRequestDTO;
 import com.hhovhann.photostudioservice.dto.OrderResponseDTO;
 import com.hhovhann.photostudioservice.mapper.OrderMapper;
+import com.hhovhann.photostudioservice.mapper.PhotographerMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
 import com.hhovhann.photostudioservice.stub.OrderStub;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import static com.hhovhann.photostudioservice.domain.data.OrderStatus.*;
 import static com.hhovhann.photostudioservice.domain.data.PhotoType.EVENTS;
 import static com.hhovhann.photostudioservice.domain.data.PhotoType.REAL_ESTATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -35,9 +38,11 @@ class OrderServiceTest {
     @MockBean
     OrderRepository orderRepository;
     @MockBean
-    PhotographerRepository  photographerRepository;
+    PhotographerRepository photographerRepository;
     @MockBean
     OrderMapper orderMapper;
+    @MockBean
+    PhotographerMapper photographerMapper;
 
     private static final ZonedDateTime ZONED_DATE_TIME = ZonedDateTime.of(2021, 03, 03, 11, 0, 0, 0, ZoneId.of("UTC"));
 
@@ -94,7 +99,7 @@ class OrderServiceTest {
         orderEntity.addPhotographer(photographerEntity);
         orderEntity.setOrderStatus(PENDING);
         OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, ASSIGNED, ZONED_DATE_TIME);
-        orderResponseDTO.setPhotographerEntities(Collections.singletonList(photographerEntity));
+        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
         when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
         when(photographerRepository.findById(1L)).thenReturn(Optional.of(photographerEntity));
         when(orderMapper.toDTO(orderEntity)).thenReturn(orderResponseDTO);
@@ -102,34 +107,63 @@ class OrderServiceTest {
         orderService.assign(orderEntity.getId(), photographerEntity.getId());
 
         assertEquals(orderResponseDTO.getOrderStatus(), ASSIGNED);
-        assertEquals(orderResponseDTO.getPhotographerEntities().size(), 1);
+        assertEquals(orderResponseDTO.getPhotographerDTOEntities().size(), 1);
     }
 
     @Test
     @DisplayName("Should upload the zip file")
     void shouldSuccessfullyUploadImageToOrder() {
-        MockMultipartFile zipFIle1
-                = new MockMultipartFile(
-                "file",
-                "hello.zip",
-                MediaType.MULTIPART_FORM_DATA_VALUE,
-                "Hello, World!".getBytes()
-        );
-        MockMultipartFile zipFIle = new MockMultipartFile("jacoco-report.zip", "content".getBytes());
+        MockMultipartFile zipFIle = new MockMultipartFile( "photo image", "photo.zip", MediaType.MULTIPART_FORM_DATA_VALUE, "Photo Image Instead!".getBytes());
+        PhotographerEntity photographerEntity = PhotographerStub.createPhotographerEntity(1);
+        OrderEntity orderEntity = OrderStub.createOrderEntityWithoutDateTime(1, EVENTS);
+        orderEntity.addPhotographer(photographerEntity);
+        orderEntity.setOrderStatus(ASSIGNED);
+        orderEntity.setImageUrl(zipFIle.getOriginalFilename());
 
-        OrderResponseDTO orderResponseDTO = orderService.uploadPhoto(1L, zipFIle);
+        OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, UPLOADED, ZONED_DATE_TIME);
+        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
 
-        assertEquals(orderResponseDTO.getOrderStatus(), UPLOADED);
+        when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
+        when(photographerRepository.findById(photographerEntity.getId())).thenReturn(Optional.of(photographerEntity));
+        when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
+        when(orderMapper.toDTO(orderEntity)).thenReturn(orderResponseDTO);
+
+        OrderResponseDTO actualResponseDTO = orderService.uploadPhoto(orderEntity.getId(), zipFIle);
+
+        assertEquals(actualResponseDTO.getOrderStatus(), UPLOADED);
 
     }
 
     @Test
     @DisplayName("Should verify file content")
     void shouldSuccessfullyVerifyImageContent() {
+        PhotographerEntity photographerEntity = PhotographerStub.createPhotographerEntity(1);
+        OrderEntity orderEntity = OrderStub.createOrderEntityWithoutDateTime(1, EVENTS);
+        orderEntity.addPhotographer(photographerEntity);
+        orderEntity.setOrderStatus(UPLOADED);
+        orderEntity.setImageUrl("some_image_url");
+        OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, COMPLETED, ZONED_DATE_TIME);
+        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
+        when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
+        when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
+        when(photographerRepository.findById(orderEntity.getId())).thenReturn(Optional.of(photographerEntity));
+        when(orderMapper.toDTO(orderEntity)).thenReturn(orderResponseDTO);
+
+        OrderResponseDTO actualResponseDTO = orderService.verifyContent(orderEntity.getId());
+
+        assertEquals(actualResponseDTO.getOrderStatus(), COMPLETED);
     }
 
     @Test
     @DisplayName("Should cancel the order and remove from database")
     void shouldSuccessfullyCancelOrder() {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        OrderEntity orderEntity = OrderStub.createOrderEntityWithoutDateTime(1, EVENTS);
+        orderEntities.add(orderEntity);
+        when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
+
+        orderService.cancel(Collections.singletonList(orderEntity.getId()));
+
+        verify(orderRepository).deleteAll(orderEntities);
     }
 }

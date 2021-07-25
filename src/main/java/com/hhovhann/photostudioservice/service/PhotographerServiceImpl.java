@@ -53,7 +53,7 @@ public class PhotographerServiceImpl implements PhotographerService {
         PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new OrderNotFoundException("No order found with specified Id"));
         photographerEntity = photographerMapper.toEntity(photographerRequestDTO);
         PhotographerEntity updatedEntity = photographerRepository.save(photographerEntity);
-        return photographerMapper.toDTO(updatedEntity);
+        return photographerMapper.toResponseDTO(updatedEntity);
 
     }
 

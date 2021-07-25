@@ -95,7 +95,6 @@ public class OrderServiceImpl implements OrderService {
         // now change the status to COMPLETED, in future logic should be added where real content verification will happen
         dataValidator.validatePhotoContent(orderEntity.getImageUrl());
         orderEntity.setOrderStatus(COMPLETED);
-        orderRepository.save(orderEntity);
         return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 

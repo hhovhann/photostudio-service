@@ -1,7 +1,5 @@
 package com.hhovhann.photostudioservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class PhotographerResponseDTO {
     private Long id;
     private String name;
