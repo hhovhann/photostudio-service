@@ -18,7 +18,7 @@ public class OrderResponseDTO {
     private String title;
     private String logisticInfo;
     private ZonedDateTime creationDateTime;
-    private List<PhotographerResponseDTO> photographerDTOEntities = new ArrayList<>();
+    private List<PhotographerResponseDTO> photographers = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -100,11 +100,11 @@ public class OrderResponseDTO {
         this.logisticInfo = logisticInfo;
     }
 
-    public List<PhotographerResponseDTO> getPhotographerDTOEntities() {
-        return photographerDTOEntities;
+    public List<PhotographerResponseDTO> getPhotographers() {
+        return photographers;
     }
 
-    public void setPhotographerDTOEntities(List<PhotographerResponseDTO> photographerDTOEntities) {
-        this.photographerDTOEntities = photographerDTOEntities;
+    public void setPhotographers(List<PhotographerResponseDTO> photographers) {
+        this.photographers = photographers;
     }
 }

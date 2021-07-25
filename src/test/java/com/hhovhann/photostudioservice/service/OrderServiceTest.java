@@ -99,7 +99,7 @@ class OrderServiceTest {
         orderEntity.addPhotographer(photographerEntity);
         orderEntity.setOrderStatus(PENDING);
         OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, ASSIGNED, ZONED_DATE_TIME);
-        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
+        orderResponseDTO.setPhotographers(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
         when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
         when(photographerRepository.findById(1L)).thenReturn(Optional.of(photographerEntity));
         when(orderMapper.toDTO(orderEntity)).thenReturn(orderResponseDTO);
@@ -107,7 +107,7 @@ class OrderServiceTest {
         orderService.assign(orderEntity.getId(), photographerEntity.getId());
 
         assertEquals(orderResponseDTO.getOrderStatus(), ASSIGNED);
-        assertEquals(orderResponseDTO.getPhotographerDTOEntities().size(), 1);
+        assertEquals(orderResponseDTO.getPhotographers().size(), 1);
     }
 
     @Test
@@ -121,7 +121,7 @@ class OrderServiceTest {
         orderEntity.setImageUrl(zipFIle.getOriginalFilename());
 
         OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, UPLOADED, ZONED_DATE_TIME);
-        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
+        orderResponseDTO.setPhotographers(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
 
         when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
         when(photographerRepository.findById(photographerEntity.getId())).thenReturn(Optional.of(photographerEntity));
@@ -143,7 +143,7 @@ class OrderServiceTest {
         orderEntity.setOrderStatus(UPLOADED);
         orderEntity.setImageUrl("some_image_url");
         OrderResponseDTO orderResponseDTO = OrderStub.createOrderResponseDTO(1, EVENTS, COMPLETED, ZONED_DATE_TIME);
-        orderResponseDTO.setPhotographerDTOEntities(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
+        orderResponseDTO.setPhotographers(Collections.singletonList(photographerMapper.toResponseDTO(photographerEntity)));
         when(orderRepository.findById(orderEntity.getId())).thenReturn(Optional.of(orderEntity));
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
         when(photographerRepository.findById(orderEntity.getId())).thenReturn(Optional.of(photographerEntity));

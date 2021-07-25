@@ -54,7 +54,7 @@ public class OrderMapper {
         List<PhotographerEntity> photographers = updatedEntity.getPhotographers();
         if (photographers.size() > 0) {
             List<PhotographerResponseDTO> photographerResponseDTOS = photographers.stream().map(photographerMapper::toResponseDTO).collect(Collectors.toList());
-            orderResponseDTO.setPhotographerDTOEntities(photographerResponseDTOS);
+            orderResponseDTO.setPhotographers(photographerResponseDTOS);
         }
         return orderResponseDTO;
     }
