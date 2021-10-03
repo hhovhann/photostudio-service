@@ -48,12 +48,12 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.2</version>
+            <version>1.5.10</version>
         </dependency>
         <dependency>
             <groupId>com.github.database-rider</groupId>
             <artifactId>rider-spring</artifactId>
-            <version>1.26.0</version>
+            <version>1.31.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
