@@ -22,17 +22,6 @@ public class PhotographerMapper {
         return photographerEntity;
     }
 
-    public PhotographerRequestDTO toRequestDTO(PhotographerEntity photographerEntity) {
-        PhotographerRequestDTO photographerRequestDTO = new PhotographerRequestDTO();
-        ContactData contactData = photographerEntity.getContactData();
-
-        photographerRequestDTO.setName(contactData.getName());
-        photographerRequestDTO.setSurname(contactData.getSurname());
-        photographerRequestDTO.setCellNumber(contactData.getCellNumber());
-        photographerRequestDTO.setEmail(contactData.getEmail());
-        return photographerRequestDTO;
-    }
-
     public PhotographerResponseDTO toResponseDTO(PhotographerEntity photographerEntity) {
         PhotographerResponseDTO photographerResponseDTO = new PhotographerResponseDTO();
         ContactData contactData = photographerEntity.getContactData();
