@@ -17,16 +17,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     private static final String NOT_FOUND = "NOT_FOUND";
     private static final String BAD_REQUEST = "BAD_REQUEST";
 
+    private ResponseEntity<Object> generateResponseEntity(RuntimeException ex, String badRequest, HttpStatus badRequest2) {
+        return new ResponseEntity<>(new ErrorResponse(badRequest, List.of(ex.getLocalizedMessage())), badRequest2);
+    }
+
     @ExceptionHandler(PhotoStudioValidationException.class)
     protected ResponseEntity<Object> handleValidationException(RuntimeException ex, WebRequest request) {
-        System.out.println(request);
-        return new ResponseEntity<>(new ErrorResponse(BAD_REQUEST, List.of(ex.getLocalizedMessage())), HttpStatus.BAD_REQUEST);
+        return generateResponseEntity(ex, BAD_REQUEST, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {OrderNotFoundException.class, PhotographerNotFoundException.class})
     protected ResponseEntity<Object> handleEntityNotFoundException(RuntimeException ex, WebRequest request) {
-        System.out.println(request);
-        return new ResponseEntity<>(new ErrorResponse(NOT_FOUND, List.of(ex.getLocalizedMessage())), HttpStatus.NOT_FOUND);
+        return generateResponseEntity(ex, NOT_FOUND, HttpStatus.NOT_FOUND);
     }
-
 }
