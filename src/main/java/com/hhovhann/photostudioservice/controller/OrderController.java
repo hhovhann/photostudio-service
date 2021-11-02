@@ -20,6 +20,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Validated
 @Tag(name = "Order endpoints")
+@RolesAllowed("ROLE_ADMIN")
 @RestController
 public class OrderController {
 
@@ -30,14 +31,12 @@ public class OrderController {
     }
 
     @PostMapping("/v1/api/orders")
-    @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(CREATED)
     public ResponseEntity<List<Long>> create(@Valid @RequestBody List<OrderRequestDTO> orderRequestDTOs) {
         return ResponseEntity.ok(orderService.create(orderRequestDTOs));
     }
 
     @PatchMapping(value = "/v1/api/orders/{order_id}")
-    @RolesAllowed("ROLE_ADMIN")
     @ResponseStatus(OK)
     public ResponseEntity<OrderResponseDTO> update(@PathVariable("order_id") Long orderId, @RequestBody ZonedDateTime localDateTime) {
         return ResponseEntity.ok(orderService.update(orderId, localDateTime));
@@ -45,7 +44,6 @@ public class OrderController {
 
     @PatchMapping("/v1/api/orders/{order_id}/photographers/{photographer_id}")
     @ResponseStatus(OK)
-    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<OrderResponseDTO> assign(@PathVariable("order_id") Long orderId, @PathVariable("photographer_id") Long photographerId) {
         return ResponseEntity.ok(orderService.assign(orderId, photographerId));
     }
@@ -66,7 +64,6 @@ public class OrderController {
 
     @DeleteMapping("/v1/api/orders/{order_ids}")
     @ResponseStatus(NO_CONTENT)
-    @RolesAllowed("ROLE_ADMIN")
     public void delete(@PathVariable("order_ids") List<Long> orderIds) {
         orderService.cancel(orderIds);
     }
