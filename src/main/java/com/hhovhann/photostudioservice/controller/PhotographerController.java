@@ -14,6 +14,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
+@RolesAllowed("ROLE_ADMIN")
 @Tag(name = "Photographer endpoints")
 public class PhotographerController {
 
@@ -32,14 +33,12 @@ public class PhotographerController {
 
     @PatchMapping("/v1/api//photographers/{photographer_id}")
     @ResponseStatus(OK)
-    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<PhotographerResponseDTO> update(@PathVariable("photographer_id") Long photographer_id, PhotographerRequestDTO photographerRequestDTO) {
         return ResponseEntity.ok(photographerService.update(photographer_id, photographerRequestDTO));
     }
 
     @DeleteMapping("/v1/api/photographers/{photographer_ids}")
     @ResponseStatus(NO_CONTENT)
-    @RolesAllowed("ROLE_ADMIN")
     public void delete(@PathVariable("photographer_ids") List<Long> photographerIds) {
         photographerService.cancel(photographerIds);
     }
