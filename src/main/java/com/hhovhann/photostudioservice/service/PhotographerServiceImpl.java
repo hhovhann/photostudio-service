@@ -9,6 +9,7 @@ import com.hhovhann.photostudioservice.exception.PhotographerNotFoundException;
 import com.hhovhann.photostudioservice.mapper.PhotographerMapper;
 import com.hhovhann.photostudioservice.repository.OrderRepository;
 import com.hhovhann.photostudioservice.repository.PhotographerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
     private final OrderRepository orderRepository;
@@ -64,9 +66,8 @@ public class PhotographerServiceImpl implements PhotographerService {
             PhotographerEntity photographerEntity = photographerRepository.findById(photographerId).orElseThrow(() -> new PhotographerNotFoundException("No photographer found with specified Id"));
             photographerEntities.add(photographerEntity);
         }
-        System.out.println("Order entity before" + orderRepository.findById(1L).get().getPhotographers());
+        log.info("Order entity before" + orderRepository.findById(1L).get().getPhotographers());
         photographerRepository.deleteAll(photographerEntities);
-        System.out.println("Order entity before" + orderRepository.findById(1L));
+        log.info("Order entity before" + orderRepository.findById(1L));
     }
-
 }
