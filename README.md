@@ -3,8 +3,8 @@
 ## Software Environment
 
 * Spring Boot 2.5.5
-* Java "17" 2021-09-14 LTS
-+ Maven 3.8.2
+* Java 17 2021-09-14 LTS
+* Maven 3.8.2
 
 ## Software Behaviour
 System designed as a Spring Boot Web Application. Provides Rest API with following endpoints:
