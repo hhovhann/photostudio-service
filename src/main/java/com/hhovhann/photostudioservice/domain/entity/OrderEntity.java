@@ -4,18 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hhovhann.photostudioservice.domain.data.ContactData;
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.domain.data.PhotoType;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.SEQUENCE;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Entity
 public class OrderEntity implements Serializable {
+    @Serial
     private static final long serialVersionUID = -2366519023138553485L;
 
     @Id

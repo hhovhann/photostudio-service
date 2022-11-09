@@ -1,16 +1,21 @@
 package com.hhovhann.photostudioservice.domain.entity;
 
 import com.hhovhann.photostudioservice.domain.data.ContactData;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
 import java.io.Serializable;
 
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.SEQUENCE;
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Entity
+@NoArgsConstructor
 public class PhotographerEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5969606383306911255L;
 
     @Id
@@ -25,9 +30,6 @@ public class PhotographerEntity implements Serializable {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_photographer_order_id"))
     private OrderEntity orderEntity;
-
-    public PhotographerEntity() {
-    }
 
     public Long getId() {
         return id;

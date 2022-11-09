@@ -4,59 +4,73 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
-public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+public class PhotoStudioServiceWebSecurityConfigurerAdapter {
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("admin")
-                        .roles("ADMIN")
-                        .build();
+  @Bean
+  public PasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-        UserDetails operator =
-                User.withDefaultPasswordEncoder()
-                        .username("operator")
-                        .password("operator")
-                        .roles("OPERATOR")
-                        .build();
+  @Bean
+  public UserDetailsService userDetailsService() {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(
+        User.withUsername("admin")
+            .password(bCryptPasswordEncoder().encode("admin"))
+            .roles("ADMIN")
+            .build());
 
-        UserDetails photographer =
-                User.withDefaultPasswordEncoder()
-                        .username("photographer")
-                        .password("photographer")
-                        .roles("PHOTOGRAPHER")
-                        .build();
+    manager.createUser(
+        User.withUsername("operator")
+            .password(bCryptPasswordEncoder().encode("operator"))
+            .roles("OPERATOR")
+            .build());
 
-        return new InMemoryUserDetailsManager(admin, operator, photographer);
-    }
+    manager.createUser(
+        User.withUsername("photographer")
+            .password(bCryptPasswordEncoder().encode("photographer"))
+            .roles("PHOTOGRAPHER")
+            .build());
 
-    @Override
-    protected void configure(final HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().authorizeRequests()
-                .anyRequest().authenticated().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().httpBasic();
-    }
+    return manager;
+  }
 
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+        .csrf()
+        .disable()
+        .authorizeRequests()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .httpBasic()
+        .and()
+        .build();
+  }
 
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return web ->
+        web.debug(true)
+            .ignoring()
+            .requestMatchers(
                 "/v3/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
@@ -64,5 +78,5 @@ public class PhotoStudioServiceWebSecurityConfigurerAdapter extends WebSecurityC
                 "/configuration/security",
                 "/api-docs.yaml",
                 "/swagger-ui.html");
-    }
+  }
 }

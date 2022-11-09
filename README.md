@@ -2,8 +2,8 @@
 
 ## Software Environment
 
-* Spring Boot 2.5.5
-* Java 17 2021-09-14 LTS
+* Spring Boot 3.0.0-SNAPSHOT
+* Java 19 (Corretto-19.0.1.10.1 (build 19.0.1+10-FR))
 * Maven 3.8.2
 
 ## Software Behaviour

@@ -1,8 +1,8 @@
 package com.hhovhann.photostudioservice.domain.data;
 
-import javax.persistence.Embeddable;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Embeddable
 public class ContactData {
