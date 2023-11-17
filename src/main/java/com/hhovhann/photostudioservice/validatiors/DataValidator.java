@@ -2,6 +2,7 @@ package com.hhovhann.photostudioservice.validatiors;
 
 import com.hhovhann.photostudioservice.domain.data.OrderStatus;
 import com.hhovhann.photostudioservice.exception.PhotoStudioValidationException;
+import io.github.pixee.security.Filenames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.ZonedDateTime;
@@ -24,7 +25,7 @@ public class DataValidator {
      * @param file - photos in zipped file
      * */
     public void validateFile(MultipartFile file) {
-        boolean endsWith = file.getOriginalFilename().endsWith("zip");
+        boolean endsWith = Filenames.toSimpleFileName(file.getOriginalFilename()).endsWith("zip");
         if (!endsWith) {
             throw new PhotoStudioValidationException("The uploaded file should be zipped");
         }
